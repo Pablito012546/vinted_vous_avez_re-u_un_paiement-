@@ -24,9 +24,19 @@
       color: #333; /* Couleur de texte générale */
     }
 
+    /* **SECTION DÉJÀ CORRIGÉE POUR L'ARRIÈRE-PLAN MOBILE** */
     @media (max-width: 480px) {
       html, body {
-        background-position: center 30%;
+        background-size: contain; /* Ajuste l'image pour qu'elle tienne entièrement dans l'écran */
+        background-position: top center; /* Centre l'image en haut de l'écran */
+        background-repeat: no-repeat; /* Empêche la répétition de l'image */
+        background-attachment: scroll; /* L'image défile avec le contenu sur mobile */
+      }
+      .modal { /* Note: Pour cette page, la classe principale est .security-container, pas .modal */
+        padding: 20px 15px; /* Conserve le padding ajusté pour les petites tailles d'écran */
+      }
+      input, button {
+        font-size: 15px; /* Conserve la taille de police ajustée */
       }
     }
 

