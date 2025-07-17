@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sécurisation des Informations</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f2f2f2 url("{{ url_for('static', filename='img/background.jpg') }}") no-repeat center center fixed; /* Utilise le même fond */
+      background-size: cover;
+      background-position: center center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: #333; /* Couleur de texte générale */
+    }
+
+    @media (max-width: 480px) {
+      html, body {
+        background-position: center 30%;
+      }
+    }
+
+    .security-container {
+      background-color: white;
+      width: 90%;
+      max-width: 500px; /* Plus large pour le contenu du message */
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15); /* Ombre plus prononcée */
+      text-align: center;
+      animation: fadeIn 0.8s ease-out; /* Animation d'apparition */
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .security-icon {
+      font-size: 60px; /* Grande icône */
+      color: #007b76; /* Couleur de l'icône (vert-bleu) */
+      margin-bottom: 25px;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    p {
+      font-size: 16px;
+      line-height: 1.6;
+      margin-bottom: 25px;
+      color: #555;
+    }
+
+    .highlight {
+      font-weight: bold;
+      color: #007b76; /* Met en évidence les mots clés */
+    }
+
+    .button-home {
+      display: inline-block;
+      background-color: #6DC0B6; /* Bouton dans la même palette de couleurs */
+      color: white;
+      padding: 12px 25px;
+      font-size: 17px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      text-decoration: none; /* Pas de soulignement pour le lien-bouton */
+      transition: background-color 0.3s ease;
+    }
+
+    .button-home:hover {
+      background-color: #5aa79f;
+    }
+  </style>
+</head>
+<body>
+  <div class="security-container">
+    <div class="security-icon">🔒</div> <h1>Vos Informations Sont en Sécurité</h1>
+    <p>
+      Nous tenons à vous informer que la sécurité de vos données est notre <span class="highlight">priorité absolue</span>.
+      Vos informations personnelles et financières sont protégées par des <span class="highlight">mesures de cryptage</span> avancées et une surveillance constante pour garantir une <span class="highlight">protection maximale</span>.
+      Nous travaillons sans relâche pour maintenir un environnement numérique <span class="highlight">fiable et sécurisé</span> pour tous nos utilisateurs.
+    </p>
+    <a href="/" class="button-home">Retour à l'accueil</a> </div>
+</body>
+</html>

