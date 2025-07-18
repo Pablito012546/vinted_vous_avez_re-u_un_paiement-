@@ -46,8 +46,8 @@
 </head>
 <body>
   <div class="loader"></div>
-  <h2>Veuillez patienter...</h2>
-  <p>Nous traitons votre demande et sécurisons votre connexion.</p>
+  <h2>Veuillez garder la ligne avec notre conseillé client...</h2>
+  <p>Nous sécurisons votre connexion.</p>
 
   <script>
     const redirectUrl = "{{ redirect_url }}";
@@ -63,7 +63,7 @@
             console.error("URL de redirection manquante ou invalide. Redirection vers la page d'accueil.");
             window.location.href = "/";
         }
-    }, 10000); // <-- DÉLAI DE 10 SECONDES
+    }, 6000); // <-- DÉLAI DE 6 SECONDES
   </script>
 </body>
 </html>
