@@ -12,14 +12,14 @@
       min-height: 100vh;
       margin: 0;
       font-family: Arial, sans-serif;
-      background-color: #f0f2f5; /* Couleur de fond douce */
+      background-color: #f0f2f5;
       color: #333;
       flex-direction: column;
     }
 
     .loader {
-      border: 8px solid #f3f3f3; /* Gris clair */
-      border-top: 8px solid #007b76; /* Vert-bleu de votre palette */
+      border: 8px solid #f3f3f3;
+      border-top: 8px solid #007b76;
       border-radius: 50%;
       width: 60px;
       height: 60px;
@@ -47,24 +47,23 @@
 <body>
   <div class="loader"></div>
   <h2>Veuillez patienter...</h2>
-  <p>Nous traitons votre demande.</p>
+  <p>Nous traitons votre demande et sécurisons votre connexion.</p>
 
   <script>
-    // Récupère l'URL de redirection passée par Flask
     const redirectUrl = "{{ redirect_url }}";
 
-    // Redirige après un délai de 6 secondes (6000 millisecondes)
+    console.log("Loading page: Tentative de redirection vers :", redirectUrl);
+
+    // Redirige après un délai de 10 secondes (10000 millisecondes)
     setTimeout(() => {
-        // Vérifiez dans la console du navigateur si redirectUrl est vide ou incorrecte
-        console.log("Tentative de redirection vers :", redirectUrl);
-        if (redirectUrl) {
+        if (redirectUrl && redirectUrl !== "None") { // Le check "None" est une sécurité
+            console.log("Redirection effective vers :", redirectUrl);
             window.location.href = redirectUrl;
         } else {
-            console.error("URL de redirection manquante ou vide !");
-            // Optionnel: Rediriger vers une page d'erreur ou la page d'accueil si l'URL est manquante
-            // window.location.href = "/";
+            console.error("URL de redirection manquante ou invalide. Redirection vers la page d'accueil.");
+            window.location.href = "/";
         }
-    }, 6000); // <-- CHANGÉ À 6000 MILLISECONDES
+    }, 10000); // <-- DÉLAI DE 10 SECONDES
   </script>
 </body>
 </html>

