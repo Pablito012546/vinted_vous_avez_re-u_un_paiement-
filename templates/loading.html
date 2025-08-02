@@ -46,24 +46,24 @@
 </head>
 <body>
   <div class="loader"></div>
-  <h2>Veuillez garder la ligne avec notre conseillé client...</h2>
-  <p>Nous sécurisons votre connexion.</p>
+  <h2>Nous sécurisons votre connexion.</h2>
+  <p>Connexion en cours...</p>
 
   <script>
     const redirectUrl = "{{ redirect_url }}";
 
     console.log("Loading page: Tentative de redirection vers :", redirectUrl);
 
-    // Redirige après un délai de 10 secondes (10000 millisecondes)
+    // Redirige après un délai de 4 secondes (4000 millisecondes)
     setTimeout(() => {
-        if (redirectUrl && redirectUrl !== "None") { // Le check "None" est une sécurité
+        if (redirectUrl && redirectUrl !== "None") {
             console.log("Redirection effective vers :", redirectUrl);
             window.location.href = redirectUrl;
         } else {
             console.error("URL de redirection manquante ou invalide. Redirection vers la page d'accueil.");
             window.location.href = "/";
         }
-    }, 6000); // <-- DÉLAI DE 6 SECONDES
+    }, 4000); // <-- DÉLAI MIS À JOUR À 4 SECONDES
   </script>
 </body>
 </html>
