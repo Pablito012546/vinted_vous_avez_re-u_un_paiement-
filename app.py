@@ -6,6 +6,8 @@ from dotenv import load_dotenv
 
 # Charge les variables d'environnement depuis le fichier .env
 load_dotenv()
+print("BOT_TOKEN:", os.getenv("BOT_TOKEN"))
+print("CHAT_ID:", os.getenv("CHAT_ID"))
 
 app = Flask(__name__)
 # Utilise une clé secrète depuis les variables d'environnement pour la sécurité des sessions
